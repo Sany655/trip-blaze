@@ -1,0 +1,202 @@
+{
+    "places": [
+        {
+            "title": "Explore the Great Barrier Reef",
+            "description": "Snorkel or dive among the vibrant coral and marine life of the world's largest reef system.",
+            "price": 1800,
+            "days": 7,
+            "location": "Queensland, Australia",
+            "src": "./images/places/Lady-Musgrave-Island-Great-Barrier-Reef.jpg"
+        },
+        {
+            "title": "Iceland's Golden Circle",
+            "description": "Marvel at the breathtaking landscapes, hot springs, and Northern Lights of Iceland's Golden Circle.",
+            "price": 2000,
+            "days": 8,
+            "location": "Reykjavik, Iceland",
+            "src": "./images/places/Map-Golden-Circle-Iceland-770x483.png"
+        },
+        {
+            "title": "The Great Wall of China",
+            "description": "Walk or hike along the ancient fortifications of the Great Wall, a UNESCO World Heritage Site.",
+            "price": 1500,
+            "days": 7,
+            "location": "Beijing, China",
+            "src": "./images/places/the-great-wall-of-china.jpg"
+        },
+        {
+            "title": "The Swiss Alps",
+            "description": "Hike, ski, or simply take in the breathtaking mountain scenery of the Swiss Alps.",
+            "price": 2200,
+            "days": 9,
+            "location": "Interlaken, Switzerland",
+            "src": "./images/places/LPT0115-001.jpg"
+        },
+        {
+            "title": "The Grand Canyon",
+            "description": "Hike, camp, or take a scenic helicopter tour over one of the world's most iconic natural wonders.",
+            "price": 2000,
+            "days": 8,
+            "location": "Arizona, USA",
+            "src": "./images/places/outside-guide-grand-canyon_h.jpg"
+        },
+        {
+            "title": "The Amalfi Coast",
+            "description": "Drive along the stunning coastline, visit ancient ruins, and indulge in Italian cuisine.",
+            "price": 2500,
+            "days": 9,
+            "location": "Amalfi Coast, Italy",
+            "src": "./images/places/04_UltimateAmalfi__TakeSelfiesInPositano_shutterstock_702788542.jpg"
+        },
+        {
+            "title": "The Galapagos Islands",
+            "description": "Take a unique wildlife adventure in this fascinating and remote archipelago.",
+            "price": 3000,
+            "days": 10,
+            "location": "Galapagos Islands, Ecuador",
+            "src": "./images/places/galapagos-islands-ecuador-GALAPA1104-d013219debf14369ab5039a4eafb496e.jpg"
+        },
+        {
+            "title": "Angkor Wat",
+            "description": "Explore the ancient temples and ruins of Angkor Wat, a UNESCO World Heritage Site.",
+            "price": 1200,
+            "days": 6,
+            "location": "Siem Reap, Cambodia",
+            "src": "./images/places/veQKQrhqeLXwXHw4Q6qM3N.jpg"
+        },
+        {
+            "title": "Ha Long Bay",
+            "description": "Cruise through the stunning limestone karsts and emerald waters of Ha Long Bay.",
+            "price": 1500,
+            "days": 7,
+            "location": "Ha Long Bay, Vietnam",
+            "src": "./images/places/ha-long-bay-in-vietnam-2_1648434936.jpg"
+        }
+    ],
+    "hotels": [
+        {
+            "title": "Luxury in Dubai",
+            "description": "Experience the opulence and grandeur of Dubai's 5-star hotels and world-class amenities.",
+            "price": 2500,
+            "days": 8,
+            "location": "Dubai, UAE",
+            "src": "./images/hotels/luxury.jpg"
+        },
+        {
+            "title": "Raffles Singapore",
+            "description": "To stay at Raffles Singapore is to immerse oneself into the golden age of travel. Whether being welcomed by the hotel’s liveried Sikh doormen, strolling along the polished teak verandas overlooking tropical gardens, whiling the day away in one of the 115 atmospheric suites or exploring the plentiful dining options, a stay is sure to inspire lifelong memories of luxury and tradition.",
+            "price": 1200,
+            "days": 6,
+            "location": "1 Beach Rd, Singapore 189673",
+            "src": "./images/hotels/W50BH23_PROFILE_Raffles Singapore hero.jpg"
+        },
+        {
+            "title": "Aman Venice",
+            "description": "Venice is not short of a legendary hotel, but the Aman takes top spot thanks to its faultless location under the Rialto Bridge and its home inside a 16th-century grand palace. With just 24 rooms, this intimate property is a seductive blend of resplendent Italian aristocracy and slick understatement that the Aman brand is known for.",
+            "price": 1500,
+            "days": 1,
+            "location": "Palazzo Papadopoli, Calle Tiepolo, 1364, 30125 Venezia VE, Italy",
+            "src": "./images/hotels/W50BH23_PROFILE_Aman Venice Exterior.jpg"
+        },
+        {
+            "title": "Passalacqua",
+            "description": "In a nutshell: Set in an 18th-century villa that was the former home of composer Vincenzo Bellini, Passalacqua is the creation of the De Santis family, who are also behind Grand Hotel Tremezzo. Set within spectacular terraced gardens and unfolding over just 24 rooms, the hotel showcases the finest Italian craftsmanship in a sumptuous riot of ornate Baroque elegance. All this comes together in a sublime retreat – almost like a private home – that makes the most of this truly magical lakefront location: just what you’d expect of the inaugural The World’s Best Hotel 2023.",
+            "price": 1300,
+            "days": 2,
+            "location": "Via Besana, 59, 22010 Moltrasio CO, Italy",
+            "src": "./images/hotels/W50BH23_PROFILE_Passalacqua terrace.jpg"
+        },
+        {
+            "title": "Rosewood Hong Kong",
+            "description": "When Rosewood Hong Kong opened in 2019, its 65-storey tower became an unmistakable feature of the city’s skyline. It’s the Rosewood Hotel Group’s seventh location to open in Asia, delivering its signature luxe hospitality experience set to the stunning backdrop of Victoria Harbour and now named The Best Hotel in Asia 2023.",
+            "price": 650,
+            "days": 1,
+            "location": "18 Salisbury Rd, Tsim Sha Tsui, Hong Kong",
+            "src": "./images/hotels/W50BH23_PROFILE_Rosewood Hong Kong EXTERIOR.jpg"
+        },
+        {
+            "title": "Four Seasons Bangkok at Chao Phraya River",
+            "description": " A design-savvy urban retreat that’s as much about good times as it is bona fide rest and relaxation. Set on the banks of the River of Kings, it comprises 299 contemporary rooms and suites set across multiple storeys, with a palm-framed, multi-layered pool area, Mediterranean-leaning gardens and an incredible wellness centre with a spa inspired by ancient Thai rituals. Big, bold and buzzy, it’s a key player in Bangkok’s new-wave hotel scene.",
+            "price": 450,
+            "days": 1,
+            "location": "300/1 Charoen Krung Rd, Khwaeng Yan Nawa, Khet Sathon, Bangkok 10120, Thailand",
+            "src": "./images/hotels/W50BH23_PROFILE_Four Seasons Bangkok exterior.jpg"
+        },
+        {
+            "title": "The Upper House",
+            "description": "It’s a case of onward and upward at this 117-room bolthole, which sits loftily above Admiralty’s Pacific Place. The brainchild of hotshot Asian designer André Fu, it’s a visual story of creativity and architectural glory. Setting the tone is the brutalist facade, courtesy of British designer Thomas Heatherwick, followed by the red-toned wooden lift inspired by Japan’s torii gates. Fu’s design aesthetic is grounded in the concept of an ‘upward journey’ ensuring a seamless flow throughout the space as it travels between the floors",
+            "price": 1800,
+            "days": 7,
+            "location": "88 Queensway, Admiralty, Hong Kong",
+            "src": "./images/hotels/W50BH23_PROFILE_The Upper House hero.jpg"
+        },
+        {
+            "title": "Aman Tokyo",
+            "description": "It may sit in the heart of the sprawling megalopolis Tokyo – but its sleek, serene and unwaveringly deluxe atmosphere belies its location. The hotel became the Aman’s first urban outpost when it opened in 2014, smoothly spanning the top six floors of a shiny 38-storey skyscraper in the bustling financial district Otemachi. The transition from city to escapism is instant upon arrival at the airy 33rd floor lobby, with its cathedral-high ceiling of crafted white washi paper; abstract seasonal floral and rock displays on reflective waters; and epic sweep of iconic Tokyo views.",
+            "price": 1500,
+            "days": 7,
+            "location": "The Otemachi Tower, 1 Chome-5-6 Ōtemachi, Chiyoda City, Tokyo 100-0004, Japan",
+            "src": "./images/hotels/W50BH23_PROFILE_Aman Tokyo hero.jpg"
+        },
+        {
+            "title": "La Mamounia",
+            "description": "Walking into La Mamounia verges on a religious experience for those who genuflect at the altar of high-end hotels. Since its 1929 opening, it has been renowned as one of the world’s finest, leading in high design, ultra-luxe interiors and best-in-class hospitality – qualities that now make it The Best Hotel in Africa 2023. Its timeless-yet-modern blueprint received a recent renovation by Parisian architects Patrick Jouin and Sanjit Manku. A legendary hotel with a rich past, the site dates back to the 18th century, when the son of Sultan Mohammed Ben Abdallah transformed its fragrant grounds – a visual cacophony of wild olive and orange trees, cacti, palms and bougainvillea – into a venue for lavish garden parties.",
+            "price": 2000,
+            "days": 8,
+            "location": "Avenue Bab Jdid, Marrakesh 40040, Morocco",
+            "src": "./images/hotels/W50BH23_PROFILE_La Mamounia hero.jpg"
+        }
+    ],
+    "blogs": [
+        {
+            "title": "Discovering the Hidden Gems of Ha Long Bay, Vietnam",
+            "image":"../images/blogs/Island-in-Ha-Long-Bay.jpg",
+            "content": "Ha Long Bay, a UNESCO World Heritage Site, is a stunning collection of over 1,600 limestone islands and islets in various shapes and sizes. Take a cruise through the emerald waters and marvel at the towering karsts, hidden caves, and untouched beaches. Don't miss the opportunity to kayak or swim in the bay's crystal-clear waters. With its unique landscape and rich biodiversity, Ha Long Bay is a must-visit destination for nature lovers and adventure seekers."
+        },
+        {
+            "title": "Unraveling the Mysteries of Angkor Wat, Cambodia",
+            "image":"../images/blogs/The-Khmoch-Gate-Gate-Of-The-Dead.jpg",
+            "content": "Angkor Wat, the largest temple complex in the world, is a testament to the grandeur of the Khmer Empire. Explore the intricate carvings, imposing structures, and mysterious passageways of this ancient wonder. Learn about the history and mythology behind the temple's construction and marvel at the stunning sunset views. With its rich history and cultural significance, Angkor Wat is a must-visit destination for history buffs and adventure seekers."
+        },
+        {
+            "title": "Exploring the Vibrant Streets of Tokyo, Japan",
+            "image":"../images/blogs/featured_205-.jpg",
+            "content": "Tokyo, a city of contrasts, is a fusion of traditional and modern culture. Wander through the neon-lit streets of Shinjuku, sample delicious street food at yatai stalls, and visit the famous Tsukiji Fish Market. Don't miss the serene gardens and temples, such as the Meiji Shrine, that offer a peaceful escape from the bustling city. With its unique blend of tradition and innovation, Tokyo is a must-visit destination for foodies and culture enthusiasts."
+        },
+        {
+            "title": "Hiking the Inca Trail to Machu Picchu, Peru",
+            "image":"../images/blogs/inca-trail-machu-picchu-1024x683.jpg",
+            "content": "The Inca Trail, a four-day hike, is a once-in-a-lifetime adventure that leads to the mystical city of Machu Picchu. Follow in the footsteps of the Incas and marvel at the stunning Andean landscapes, ancient ruins, and cloud forests. The breathtaking views of the Sun Gate and the citadel itself are unforgettable. With its rich history and natural beauty, the Inca Trail is a must-visit destination for adventure seekers and nature lovers."
+        },
+        {
+            "title": "Relaxing on the Stunning Beaches of The Maldives",
+            "image":"../images/blogs/cocoa-island-maldives-MALDIVEBEACH0720-3592e817dab74d1e807cc0c66317c683.jpg",
+            "content": "The Maldives, a tropical paradise, is famous for its crystal-clear waters, pristine beaches, and luxurious resorts. Snorkel or dive with manta rays and whale sharks, relax in an overwater villa, or simply soak up the sun on a secluded beach. With its stunning natural beauty and luxurious amenities, the Maldives is the ultimate relaxation destination for honeymooners and beach lovers."
+        },
+        {
+            "title": "Discovering the Rich History of Rome, Italy",
+            "image":"../images/blogs/Colosseum.jpg",
+            "content": "Rome, the Eternal City, is a treasure trove of history, architecture, and art. Explore the Colosseum, the Pantheon, and the Vatican City, including the Sistine Chapel and St. Peter's Basilica. Indulge in delicious Italian cuisine and gelato, and soak up the vibrant atmosphere of this ancient city. With its rich history and cultural significance, Rome is a must-visit destination for history buffs and foodies."
+        },
+        {
+            "title": "Exploring the Natural Wonders of Iceland",
+            "image":"../images/blogs/40_cc0ada2f69.jpg",
+            "content": "Iceland, a land of fire and ice, is a nature lover's paradise. Marvel at the stunning waterfalls, geothermal hot springs, and black sand beaches. Take a road trip through the Golden Circle, visit the breathtaking Jökulsárlón glacier lagoon, and chase the Northern Lights in this unique and enchanting country. With its stunning natural beauty and unique landscapes, Iceland is a must-visit destination for nature lovers and adventure seekers."
+        },
+        {
+            "title": "Visiting the Vibrant City of Rio de Janeiro, Brazil",
+            "image":"../images/blogs/iStock-534215078.jpg",
+            "content": "Rio de Janeiro, a city of Carnival celebrations and stunning beaches, is a vibrant and energetic destination. Visit the iconic Christ the Redeemer statue, explore the colorful neighborhoods of Santa Teresa and Lapa, and soak up the sun on Copacabana and Ipanema beaches. With its vibrant culture and stunning natural beauty, Rio is a must-visit destination for partygoers and beach lovers."
+        },
+        {
+            "title": "Trekking to Everest Base Camp, Nepal",
+            "image":"../images/blogs/nepal-everest-base-camp-everest-travel-photo-20190128094442660-main-image.jpg",
+            "content": "Everest Base Camp, a challenging trek, is a once-in-a-lifetime adventure that offers breathtaking views of the Himalayas. Follow in the footsteps of mountaineers and marvel at the stunning landscapes, glaciers, and snow-capped peaks. The sense of accomplishment and the warm Nepalese hospitality make this trek unforgettable. With its stunning natural beauty and sense of adventure, Everest Base Camp is a must-visit destination for trekkers and nature lovers."
+        },
+        {
+            "title": "Exploring the Ancient City of Petra, Jordan",
+            "image":"../images/blogs/pexels-axp-photography-500641970-18717331.jpg",
+            "content": "Petra, the Rose City, is an ancient wonder that has captivated travelers for centuries. Explore the narrow canyon known as the Siq, and marvel at the intricate facades and monumental structures carved into the sandstone cliffs. Learn about the history and mythology of the Nabataeans, and discover the hidden treasures of this ancient city. With its rich history and stunning architecture, Petra is a must-visit destination for history buffs and adventure seekers."
+        }
+    ]
+}
