@@ -11,6 +11,11 @@ import Blog from './pages/Blog.tsx';
 import Reviews from './pages/Reviews.tsx';
 import ContactUs from './pages/ContactUs.tsx';
 import About from './pages/About.tsx';
+import Booking from './pages/Booking.tsx';
+import Post from './pages/Post.tsx';
+import Signup from './pages/Signup.tsx';
+import Signin from './pages/Signin.tsx';
+import MyBookings from './pages/MyBookings.tsx';
 
 function App() {
   return (
@@ -24,9 +29,14 @@ function App() {
         <Route path='/hotels' element={<Hotels />}/>
         <Route path='/message' element={<Message />}/>
         <Route path='/blog' element={<Blog />}/>
+        <Route path='/blog/:title' element={<Post />}/>
         <Route path='/reviews' element={<Reviews />}/>
         <Route path='/about' element={<About />}/>
         <Route path='/contact' element={<ContactUs />}/>
+        <Route path='/booking/:type/:title' element={<Booking />}/>
+        <Route path='/signup' element={<Signup />}/>
+        <Route path='/signin' element={<Signin />}/>
+        <Route path='/my-bookings' element={<MyBookings />}/>
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -1,6 +1,6 @@
 import React from 'react'
 import data from "../data.json"
-import { TourCard } from './Tours.tsx'
+import TourCard from '../components/TourCard.tsx'
 
 function Packages() {
   return (
@@ -11,25 +11,25 @@ function Packages() {
         <div className="flex flex-col">
           <h2 className="text-2xl text-center text-green-400">Family Package</h2>
           {
-            data.places.slice(0,2).map((place,index) => TourCard(place))
+            data.places.slice(0,2).map((place,index) => TourCard(place,index))
           }
         </div>
         <div className="flex flex-col">
           <h2 className="text-2xl text-center text-green-400">Couple Package</h2>
           {
-            data.places.slice(2,4).map((place,index) => TourCard(place))
+            data.places.slice(2,4).map((place,index) => TourCard(place,index))
           }
         </div>
         <div className="flex flex-col">
           <h2 className="text-2xl text-center text-green-400">Solo Package</h2>
           {
-            data.places.slice(4,6).map((place,index) => TourCard(place))
+            data.places.slice(4,6).map((place,index) => TourCard(place,index))
           }
         </div>
         <div className="flex flex-col">
           <h2 className="text-2xl text-center text-green-400">Group Package</h2>
           {
-            data.places.slice(6,8).map((place,index) => TourCard(place))
+            data.places.slice(6,8).map((place,index) => TourCard(place,index))
           }
         </div>
       </div>

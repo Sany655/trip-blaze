@@ -1,5 +1,6 @@
 import React from 'react'
 import data from "../data.json"
+import { Link } from 'react-router-dom';
 
 function Blog() {
   return (
@@ -15,23 +16,17 @@ function Blog() {
   )
 }
 
-function BlogCard({ title, image, content }) {
+function BlogCard({ title, image, section }) {
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden mb-4 md:flex">
       <img
         src={image}
         alt="Bangladesh Visa on Arrival"
-        className="w-full h-48 object-cover"
+        className=" h-48 object-cover"
       />
       <div className="p-4">
         <h2 className="text-xl font-bold text-gray-900">{title}</h2>
-        <p className="text-gray-700 text-base">{content}</p>
-        {/* <a
-          href="#"
-          className="inline-block px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
-        >
-          Read more
-        </a> */}
+        <p className="text-gray-700 text-base">{section[0].content.slice(0,70)}... <Link to={`/blog/${title}`} className="text-blue-400">Read more</Link></p>
       </div>
     </div>
   );
