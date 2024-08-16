@@ -29,7 +29,7 @@ import ManageChatbox from './pages/admin/ManageChatbox.tsx';
 import { useEffect } from 'react';
 
 function App() {
-  axios.defaults.baseURL = process.env.REACT_APP_server_path+'/api/';
+  axios.defaults.baseURL = process.env.REACT_APP_server_path+'api/';
   const { user, socket } = useAuth();
 
   useEffect(() => {
