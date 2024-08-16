@@ -31,14 +31,14 @@ function ContactUs() {
     }, [])
 
     return (
-        <section className="bg-gray-900 flex justify-center items-center text-center" style={{ height: "70vh" }}>
+        <section className="flex justify-center items-center text-center" style={{ height: "70vh" }}>
             <div>
                 <h2 className="text-2xl font-bold mb-1 text-green-500">Contact Us</h2>
                 <small className='mb-4 block text-green-700'>we are here to provide you</small>
                 <form className='md:flex flex-col gap-4 mx-auto' style={{ width: "40vw" }} ref={form} onSubmit={sendEmail}>
-                    <input name='from_name' type="text" placeholder='Name' className='p-2 border-2 border-green-400 rounded' required />
-                    <input name='from_email' type="email" placeholder='Email Address' className='p-2 border-2 border-green-400 rounded' required />
-                    <textarea name='message' placeholder='Write your message' className='p-2 border-2 border-green-400 rounded' required></textarea>
+                    <input name='from_name' type="text" placeholder='Name' className='p-2 border border-grey-400 rounded' required />
+                    <input name='from_email' type="email" placeholder='Email Address' className='p-2 border border-grey-400 rounded' required />
+                    <textarea name='message' placeholder='Write your message' className='p-2 border border-grey-400 rounded' required></textarea>
                     <button className="bg-green-500 font-bold text-black p-4">Submit</button>
                     <small className='text-white'>{info}</small>
                 </form>

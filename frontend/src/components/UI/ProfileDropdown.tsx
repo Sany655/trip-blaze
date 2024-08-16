@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const ProfileDropdown: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { handleLogout, user } = useAuth();
 
     return (
         <div className="relative inline-block text-left">
@@ -12,7 +14,8 @@ const ProfileDropdown: React.FC = () => {
                     onClick={() => setIsOpen(!isOpen)}
                     className="inline-flex justify-center w-full rounded-full bg-green-900 p-2 text-white focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-blue-900"
                 >
-                    <i className='fa fa-user me-2'></i>
+                    {/* <i className='fa fa-user me-2'></i> */}
+                    <img src={process.env.REACT_APP_img_path + user.image} className="h-4 bg-green-500 rounded-full me-2" />
                     <i className={`fa ${isOpen ? 'fa-caret-up' : 'fa-caret-down'}`}></i>
                 </button>
             </div>
@@ -26,43 +29,100 @@ const ProfileDropdown: React.FC = () => {
                     onClick={() => setIsOpen(false)}
                 >
                     <div className="py-1" role="none">
-                        <Link
-                            to="profile"
-                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
-                            role="menuitem"
-                        >
-                            <i className='me-3 fa fa-user'></i>
-                            Profile
-                        </Link>
-
-                        <Link
-                            to={'/message'}
-                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
-                            role="menuitem"
-                        >
-                            <i className='me-3 fa fa-message'></i>
-                            Message
-                        </Link>
-                        <Link
-                            to="my-bookings"
-                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
-                            role="menuitem"
-                        >
-                            <i className='me-3 fa fa-tag'></i>
-                            My Booking
-                        </Link>
-                        <Link
-                            to="saved"
-                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
-                            role="menuitem"
-                        >
-                            <i className='me-3 fa fa-heart'></i>
-                            Saved
-                        </Link>
+                        {
+                            user.role === "user" ? (
+                                <>
+                                    <Link
+                                        to={'/messages'}
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-message'></i>
+                                        Message
+                                    </Link>
+                                    <Link
+                                        to="my-bookings"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-calendar-check'></i>
+                                        My Booking
+                                    </Link>
+                                </>
+                            ) : (
+                                <>
+                                    <Link
+                                        to="admin/tours"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-globe'></i>
+                                        Manage Tour
+                                    </Link>
+                                    <Link
+                                        to="admin/hotels"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-hotel'></i>
+                                        Manage Hotels
+                                    </Link>
+                                    <Link
+                                        to="admin/packages"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-gift'></i>
+                                        Manage Packages
+                                    </Link>
+                                    <Link
+                                        to="admin/transports"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-bus'></i>
+                                        Manage Transportation
+                                    </Link>
+                                    <Link
+                                        to="admin/blogs"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-blog'></i>
+                                        Manage Blogs
+                                    </Link>
+                                    <Link
+                                        to="admin/bookings"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-calendar-check'></i>
+                                        Manage Bookings
+                                    </Link>
+                                    <Link
+                                        to="admin/messages"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-message'></i>
+                                        Messages
+                                    </Link>
+                                    {/* <Link
+                                        to="admin/reviews"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-star'></i>
+                                        Manage Reviews
+                                    </Link> */}
+                                </>
+                            )
+                        }
                         <a
-                            href="#signout"
+                            href="#"
                             className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
                             role="menuitem"
+                            onClick={handleLogout}
                         >
                             <i className="me-3 fa-solid fa-right-from-bracket"></i>
                             Sign Out

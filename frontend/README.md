@@ -12,8 +12,10 @@
 10. Contact Us
 
 11. backend
-12. 3 panel hotel(hotel and package data)/admin(all)/user(reviews)
-13. after confirmation of booking, review form will be appear
+12. 3 panel hotel(hotel and package data)/admin(all)/user(reviews)  -- 2 panel user/admin
+13. by clicking the book now button, it will ask via confirm (js) or prompt the necessary info, if it will remains empty then in the server, it will be auto set.
+14. after booking admin will put the necessary data and confirm them.
+15. after confirmation of booking, review form will be appear
 
 
 Reference Website:

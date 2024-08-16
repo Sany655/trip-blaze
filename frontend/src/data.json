@@ -718,9 +718,91 @@
         },
         {
             "id": 2,
-            "for":"hotels",
+            "for": "hotels",
             "rating": 1,
             "review": "This product is terrible. It's the worst thing I've ever bought. I would never recommend it to anyone."
+        }
+    ],
+    "packages": [
+        {
+            "title": "Discover Petra",
+            "description": "Explore the ancient city of Petra, a UNESCO World Heritage Site, and experience the rich history and culture of Jordan.",
+            "price": 800,
+            "days": 4,
+            "location": "Petra, Jordan",
+            "src":"uploads/packages/Discover Petra.png"
+        },
+        {
+            "title": "Trek to Everest Base Camp",
+            "description": "Embark on an unforgettable adventure to the foot of the highest mountain in the world, Mount Everest, and experience the breathtaking beauty of the Himalayas.",
+            "price": 2500,
+            "days": 14,
+            "location": "Everest Base Camp, Nepal",
+            "src":"uploads/packages/Trek to Everest Base Camp.png"
+        },
+        {
+            "title": "Explore Marrakech",
+            "description": "Discover the vibrant city of Marrakech, known for its colorful souks, stunning architecture, and rich cultural heritage.",
+            "price": 1200,
+            "days": 7,
+            "location": "Marrakech, Morocco",
+            "src":"uploads/packages/Explore Marrakech.png"
+        },
+        {
+            "title": "Island Hopping in Greece",
+            "description": "Sail through the crystal-clear waters of the Aegean Sea and explore the picturesque islands of Greece, including Mykonos, Santorini, and Crete.",
+            "price": 1800,
+            "days": 10,
+            "location": "Greece",
+            "src":"uploads/packages/Island Hopping in Greece.png"
+        },
+        {
+            "title": "Wildlife Safari in Africa",
+            "description": "Go on a thrilling adventure through the savannas and grasslands of Africa, spotting incredible wildlife, including the Big Five: lion, leopard, rhinoceros, elephant, and Cape buffalo.",
+            "price": 3500,
+            "days": 12,
+            "location": "Maasai Mara, Kenya",
+            "src":"uploads/packages/Wildlife Safari in Africa.png"
+        },
+        {
+            "title": "Cultural Heritage of India",
+            "description": "Explore the rich cultural heritage of India, visiting iconic cities like Delhi, Agra, and Jaipur, and experiencing the vibrant colors, sounds, and flavors of this incredible country.",
+            "price": 2000,
+            "days": 10,
+            "location": "India",
+            "src":"uploads/packages/Cultural Heritage of India.png"
+        },
+        {
+            "title": "Scenic New Zealand",
+            "description": "Discover the stunning natural beauty of New Zealand, from the rugged mountains to the pristine fjords, and experience the country's unique culture and adventure activities.",
+            "price": 2800,
+            "days": 14,
+            "location": "New Zealand",
+            "src":"uploads/packages/Scenic New Zealand.png"
+        },
+        {
+            "title": "Food and Wine in Italy",
+            "description": "Indulge in the rich flavors and aromas of Italy, exploring the countryside, visiting local vineyards, and sampling the country's famous cuisine.",
+            "price": 2200,
+            "days": 9,
+            "location": "Tuscany, Italy",
+            "src":"uploads/packages/Food and Wine in Italy.png"
+        },
+        {
+            "title": "Costa Rican Adventure",
+            "description": "Explore the lush rainforests, exotic wildlife, and stunning beaches of Costa Rica, and experience the country's vibrant culture and adventure activities.",
+            "price": 1900,
+            "days": 11,
+            "location": "Costa Rica",
+            "src":"uploads/packages/Costa Rican Adventure.png"
+        },
+        {
+            "title": "Icelandic Odyssey",
+            "description": "Discover the breathtaking landscapes and natural wonders of Iceland, including the Blue Lagoon, waterfalls, and black sand beaches.",
+            "price": 3200,
+            "days": 8,
+            "location": "Iceland",
+            "src":"uploads/packages/Icelandic Odyssey.png"
         }
     ]
 }

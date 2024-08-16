@@ -2,17 +2,7 @@
 import React, { useEffect } from 'react';
 import ContactUs from './ContactUs.tsx';
 import About from './About.tsx';
-import axios from 'axios';
-
 const Home = () => {
-    useEffect(() => {
-      axios.get('http://localhost:5000/api').then(response => {
-        // set your data here
-        console.log(response.data);
-      }).catch(error => {
-        console.error('Error fetching data', error);
-      });
-    }, [])
     
     return (
         <main className="">

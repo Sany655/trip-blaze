@@ -2,7 +2,7 @@ import React from 'react'
 
 function Footer() {
     return (
-        <footer className='bg-green-400 text-center pt-14 px-2 md:px-0'>
+        <footer className='bg-green-400 text-center pt-14 px-2 md:px-0 mt-52'>
             <div className="md:flex items-center justify-around pb-4">
                 <div className="flex flex-col items-start justify-center gap-2">
                     <h3 className='text-2xl'>Trip Blaze</h3>
