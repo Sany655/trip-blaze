@@ -16,7 +16,7 @@ function Post() {
     return (
         <section className="container mx-auto my-16">
             <h1 className="text-5xl font-bold">{post?.title}</h1>
-            <img src={process.env.REACT_APP_img_path+post?.image} alt={post?.title} className='my-14' />
+            <img src={process.env.REACT_APP_server_path+post?.image} alt={post?.title} className='my-14' />
             <pre style={{whiteSpace: "pre-wrap"}}>{post?.content}</pre>
         </section>
     )

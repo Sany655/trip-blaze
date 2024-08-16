@@ -34,7 +34,7 @@ function BlogCard({ title, image, content }) {
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden mb-4 md:flex">
       <img
-        src={process.env.REACT_APP_img_path + image}
+        src={process.env.REACT_APP_server_path + image}
         alt="Bangladesh Visa on Arrival"
         className="h-48 object-cover w-full md:w-1/4"
       />

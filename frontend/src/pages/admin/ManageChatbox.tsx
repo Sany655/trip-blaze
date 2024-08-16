@@ -81,7 +81,7 @@ const ManageChatbox: React.FC = () => {
                 <div className="flex items-center">
                     {/* Profile Picture */}
                     <img
-                        src={process.env.REACT_APP_img_path + inbox?.user?.image}
+                        src={process.env.REACT_APP_server_path + inbox?.user?.image}
                         alt="User Profile"
                         className="w-12 h-12 rounded-full object-cover"
                     />

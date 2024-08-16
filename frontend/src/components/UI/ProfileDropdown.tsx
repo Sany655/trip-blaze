@@ -15,7 +15,7 @@ const ProfileDropdown: React.FC = () => {
                     className="inline-flex justify-center w-full rounded-full bg-green-900 p-2 text-white focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-blue-900"
                 >
                     {/* <i className='fa fa-user me-2'></i> */}
-                    <img src={process.env.REACT_APP_img_path + user.image} className="h-4 bg-green-500 rounded-full me-2" />
+                    <img src={process.env.REACT_APP_server_path + user.image} className="h-4 bg-green-500 rounded-full me-2" />
                     <i className={`fa ${isOpen ? 'fa-caret-up' : 'fa-caret-down'}`}></i>
                 </button>
             </div>

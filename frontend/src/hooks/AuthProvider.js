@@ -4,7 +4,7 @@ import { Navigate, redirect } from 'react-router-dom';
 import { io } from "socket.io-client";
 export const AuthContext = createContext()
 
-const socket = io(process.env.REACT_APP_img_path);
+const socket = io(process.env.REACT_APP_server_path);
 
 function AuthProvider({ children }) {
 

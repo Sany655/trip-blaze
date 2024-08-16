@@ -4,7 +4,7 @@ import axios from 'axios'
 function ReviewCard({ title, bookingType, rating, review, name, src, date }) {
   return (
     <div className="mx-auto bg-white p-6 rounded-lg shadow-md flex my-4">
-      <img className="w-24 h-24 mr-6" src={process.env.REACT_APP_img_path + src} alt={`${name}`} />
+      <img className="w-24 h-24 mr-6" src={process.env.REACT_APP_server_path + src} alt={`${name}`} />
       <div className="flex-1">
         <div className="flex justify-between items-start">
           <div>
