@@ -15,7 +15,7 @@ function Signup() {
         const data = new FormData(signupForm.current);
         axios.post('/signup', data).then((response) => {
             if (response.data.status === 200) {
-                localStorage.setItem('auth', JSON.stringify(response.data.user));
+                localStorage.setItem('auth', btoa(JSON.stringify(response.data.user)));
                 signupForm.current.reset();
                 setUser(response.data.user);
             } else {

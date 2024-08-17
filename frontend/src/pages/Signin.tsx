@@ -14,7 +14,7 @@ function Signin() {
         const formData = new FormData(signinForm.current);
         axios.post('/signin', formData).then((response) => {
             if (response.data.status === 200) {
-                localStorage.setItem('auth', JSON.stringify(response.data.user));
+                localStorage.setItem('auth', btoa(JSON.stringify(response.data.user)));
                 setUser(response.data.user);
                 signinForm.current.reset();
             } else {

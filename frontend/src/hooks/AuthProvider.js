@@ -7,10 +7,10 @@ export const AuthContext = createContext()
 const socket = io(process.env.REACT_APP_server_path);
 
 function AuthProvider({ children }) {
-
-    const [user, setUser] = useState(localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')) : null);
+    const ls = localStorage.getItem('auth')
+    const [user, setUser] = useState(ls ? JSON.parse(atob(ls)) : null);
     useEffect(() => {
-        const saved = JSON.parse(localStorage.getItem('auth'));
+        const saved = ls?JSON.parse(atob(ls)):null;
         if (saved) {
             setUser(saved);
         }
