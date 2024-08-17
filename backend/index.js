@@ -11,7 +11,7 @@ const { Server } = require("socket.io");
 
 app.use(express.json());
 app.use(cors());
-app.use('uploads', express.static(__dirname + 'uploads'));
+app.use('/uploads', express.static('uploads'));
 
 const io = new Server(server, {
     cors: {

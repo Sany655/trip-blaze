@@ -58,7 +58,7 @@ const ChatBox: React.FC = () => {
     }
 
     return (
-        <div className="flex flex-col w-full mx-auto max-w-lg bg-white shadow-lg rounded-lg ">
+        <div className="flex flex-col w-full mx-auto max-w-xl bg-white shadow-lg rounded-lg ">
             {/* hotel profile */}
             <div className="flex flex-col justify-between bg-white p-4 border shadow-md">
                 <h2 className="text-2xl font-bold mb-4">{inbox?.hotel?.title}</h2>

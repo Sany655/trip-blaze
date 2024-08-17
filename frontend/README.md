@@ -25,7 +25,3 @@ https://gozayaan.com/
 ### emails
 email: tripblaze71@gmail.com
 password: TripBlazeFinalProject@Varsity71
-
-### live site
-frontend: https://trip-blaze.web.app
-backend: https://trip-blaze-backend.onrender.com
