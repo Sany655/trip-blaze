@@ -49,7 +49,7 @@ const ProfileDropdown: React.FC = () => {
                                         My Booking
                                     </Link>
                                 </>
-                            ) : (
+                            ) : user.role === 'admin' ? (
                                 <>
                                     <Link
                                         to="admin/tours"
@@ -58,14 +58,6 @@ const ProfileDropdown: React.FC = () => {
                                     >
                                         <i className='me-3 fa fa-globe'></i>
                                         Manage Tour
-                                    </Link>
-                                    <Link
-                                        to="admin/hotels"
-                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
-                                        role="menuitem"
-                                    >
-                                        <i className='me-3 fa fa-hotel'></i>
-                                        Manage Hotels
                                     </Link>
                                     <Link
                                         to="admin/packages"
@@ -99,14 +91,6 @@ const ProfileDropdown: React.FC = () => {
                                         <i className='me-3 fa fa-calendar-check'></i>
                                         Manage Bookings
                                     </Link>
-                                    <Link
-                                        to="admin/messages"
-                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
-                                        role="menuitem"
-                                    >
-                                        <i className='me-3 fa fa-message'></i>
-                                        Messages
-                                    </Link>
                                     {/* <Link
                                         to="admin/reviews"
                                         className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
@@ -115,6 +99,33 @@ const ProfileDropdown: React.FC = () => {
                                         <i className='me-3 fa fa-star'></i>
                                         Manage Reviews
                                     </Link> */}
+                                </>
+                            ) : user.role === 'manager' && (
+                                <>
+                                    <Link
+                                        to="manager/hotel"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className="me-3 fa-solid fa-hotel"></i>
+                                        My Hotel
+                                    </Link>
+                                    <Link
+                                        to="manager/bookings"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-calendar-check'></i>
+                                        Manage Bookings
+                                    </Link>
+                                    <Link
+                                        to="manager/messages"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-message'></i>
+                                        Messages
+                                    </Link>
                                 </>
                             )
                         }

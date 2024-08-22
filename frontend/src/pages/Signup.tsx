@@ -30,9 +30,10 @@ function Signup() {
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-8 rounded-md shadow-md md:w-2/3 lg:w-1/4 mx-auto my-28" ref={signupForm} encType='multipart/form-data'>
             <h2 className="text-2xl font-bold text-center">Sign Up</h2>
+            <input name='role' defaultValue={'user'} className="hidden" type='password' />
             <div>
                 <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                    User Name
+                    Username
                 </label>
                 <input
                     type="text"
@@ -44,7 +45,7 @@ function Signup() {
             </div>
             <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Email
+                    User Email
                 </label>
                 <input
                     type="email"
@@ -56,14 +57,14 @@ function Signup() {
             </div>
             <div>
                 <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-                    Profile Picture
+                    User Picture
                 </label>
                 <input
                     type="file"
                     id="image"
                     name="image"
                     className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
-                    
+
                 />
             </div>
             <div>

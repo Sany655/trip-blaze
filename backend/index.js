@@ -223,50 +223,68 @@ io.on('connection', (socket) => {
         });
     })
 
-    // api endpoints to sign up user
-    app.post('/api/signup', upload.single('image'), async (req, res) => {
+    const checkUniqueUser = async (req, res, next) => {
         try {
-            const { username, email, password } = req.body;
             const users = await client.get('users');
-            if (users && JSON.parse(users).find(user => user.email === email)) {
-                return res.json({ status: 400, message: 'Email already exists' });
-            } else if (users && JSON.parse(users).find(user => user.username === username)) {
+            const { username, email, password, role } = req.body;
+            if (users && JSON.parse(users).find(user => user.username === username && user.role === role)) {
                 return res.json({ status: 400, message: 'Username already exists' });
-            } else {
-                if (req.file) {
-                    req.body.image = `uploads/users/${username}.png`;
-                    fs.renameSync(req.file.path, req.body.image);
-                } else {
-                    req.body.image = 'uploads/users/default_user.png';
-                }
-                let newUsers = [];
-                if (users) {
-                    newUsers = JSON.parse(users);
-                }
-                req.body.role = 'user';
-                newUsers.push(req.body);
-                client.set('users', JSON.stringify(newUsers)).then(() => {
-                    delete req.body.password;
-                    res.json({ status: 200, user: req.body });
-                });
+            }
+            else if (users && JSON.parse(users).find(user => user.email === email && user.role === role)) {
+                return res.json({ status: 400, message: 'Email already exists' });
             }
         } catch (error) {
-            console.log(error);
+            res.json({ status: 400, message: 'Error searching user ' + error.message });
+        }
+        next();
+    }
+
+    const registerUser = async (req, res) => {
+        try {
+            const { username, email, password, role } = req.body;
+            const users = await client.get('users');
+            if (req.file) {
+                req.body.image = `uploads/users/${username}.png`;
+                fs.renameSync(req.file.path, req.body.image);
+            } else {
+                req.body.image = 'uploads/users/default_user.png';
+            }
+            let newUsers = [];
+            if (users) {
+                newUsers = JSON.parse(users);
+            }
+            req.body.id = newUsers.length > 0 ? newUsers[0].id + 1 : 1;
+            newUsers.unshift(req.body);
+            client.set('users', JSON.stringify(newUsers)).then(() => {
+                delete req.body.password;
+                res.json({ status: 200, user: req.body });
+            })
+        } catch (error) {
             res.json({ status: 400, message: 'Error creating user ' + error.message });
         }
-    });
+    }
+
+    // api endpoints to check unique hotel manager
+    app.post('/api/unique_manager', upload.none(), checkUniqueUser, async (req, res) => {
+        res.json({ status: 200, message: 'Hotel manager ready!' });
+    })
+
+    // api endpoints to sign up hotel manager
+    app.post('/api/signup_manager', registerUser)
+
+    // api endpoints to sign up user
+    app.post('/api/signup', upload.single('image'), checkUniqueUser, registerUser);
 
     // api endpoints to signin
     app.post('/api/signin', upload.none(), async (req, res) => {
         try {
-            const { user, password } = req.body;
-            // compare username or email and password with stored data
+            const { user, password, role } = req.body;
             const users = await client.get('users');
             if (!users) {
-                return res.json({ status: 401, message: 'Invalid credentials' });
+                return res.json({ status: 401, message: 'Users not found' });
             }
-            const userObj = JSON.parse(users).find(use => use.email === user || use.username === user);
-            if (!userObj || userObj.password !== password) {
+            const userObj = JSON.parse(users).find(use => (use.email === user || use.username === user) && (use.role === role || use.role === 'admin'));
+            if (!userObj || userObj.password !== password || (userObj.role !== role && userObj.role !== 'admin')) {
                 return res.json({ status: 401, message: 'Invalid credentials' });
             }
             delete userObj.password;
@@ -467,20 +485,39 @@ io.on('connection', (socket) => {
         }
     });
 
+    // api endpoints to get hotel data by id
+    app.get('/api/get_hotel', async (req, res) => {
+        const id = req.query.id;
+        const data = await client.get('hotels');
+        const hotel = JSON.parse(data).find(hotel => hotel.id === id);
+        if (hotel) {
+            res.json({ status: 200, hotel: hotel });
+        } else {
+            res.json({
+                status: 404,
+                message: 'Hotel not found'
+            })
+        }
+    });
+
     // api endpoints to set hotel data
     app.post('/api/set_hotel', upload.single("src"), async (req, res) => {
         const data = req.body;
-        data.src = `uploads/hotels/${data.title}.png`;
+        data.rooms = []
         const oldData = await client.get(`hotels`);
-        let newData = [];
-        if (oldData) {
-            newData = JSON.parse(oldData);
-        }
-        if (newData.some(hotel => hotel.title === data.title)) {
-            return res.json({ status: 400, message: 'Title must be unique' });
-        }
-        client.set(`hotels`, JSON.stringify([data, ...newData])).then(() => {
+        let newData = oldData ? JSON.parse(oldData) : [];
+        const index = newData.findIndex(hotel => hotel.id === data.id);
+        if (req.file) {
+            (newData[index] && fs.existsSync(newData[index].src)) && fs.unlinkSync(newData[index].src);
+            data.src = `uploads/hotels/${req.body.title.replace(/\s+/g, '_')}_${new Date().toLocaleString().replace(/[/:.]/g, '-')}.png`;
             fs.renameSync(req.file.path, data.src);
+        }
+        if (index !== -1) {
+            newData[index] = { ...newData[index], ...data };
+        } else {
+            newData.unshift(data);
+        }
+        client.set(`hotels`, JSON.stringify(newData)).then(() => {
             res.json({ status: 200, message: 'Data saved successfully!' });
         }).catch(err => {
             console.error(err);
@@ -489,27 +526,93 @@ io.on('connection', (socket) => {
     });
 
     // api endpoints to delete hotel data
-    app.delete('/api/delete_hotel/:title', async (req, res) => {
-        const title = req.params.title;
+    //  app.delete('/api/delete_hotel/:title', async (req, res) => {
+    //     const title = req.params.title;
+    //     const oldData = await client.get(`hotels`);
+    //     let newData = [];
+    //     if (oldData) {
+    //         newData = JSON.parse(oldData);
+    //     }
+    //     const hotelToDelete = newData.find(hotel => hotel.title === title);
+    //     if (hotelToDelete.title) {
+    //         fs.unlinkSync(hotelToDelete.src);
+    //         newData = newData.filter(hotel => hotel.title !== title);
+    //         client.set(`hotels`, JSON.stringify(newData)).then(() => {
+    //             res.json({ message: 'Data deleted successfully!' });
+    //         }).catch(err => {
+    //             console.error(err);
+    //             res.status(500).json({ message: 'Error deleting data' });
+    //         });
+    //     } else {
+    //         res.status(404).json({ message: 'Place not found' });
+    //     }
+    // });
+
+    // api endpoints to create a new room
+    app.post('/api/create_room', upload.single('src'), async (req, res) => {
+        const data = req.body;
         const oldData = await client.get(`hotels`);
-        let newData = [];
-        if (oldData) {
-            newData = JSON.parse(oldData);
-        }
-        const hotelToDelete = newData.find(hotel => hotel.title === title);
-        if (hotelToDelete.title) {
-            fs.unlinkSync(hotelToDelete.src);
-            newData = newData.filter(hotel => hotel.title !== title);
-            client.set(`hotels`, JSON.stringify(newData)).then(() => {
-                res.json({ message: 'Data deleted successfully!' });
-            }).catch(err => {
-                console.error(err);
-                res.status(500).json({ message: 'Error deleting data' });
-            });
-        } else {
-            res.status(404).json({ message: 'Place not found' });
-        }
+        let newData = oldData ? JSON.parse(oldData) : [];
+        const index = newData.findIndex(hotel => hotel.id === data.id);
+        data.src = `uploads/rooms/${data.title.replace(/\s+/g, '_')}.jpg`
+        fs.renameSync(req.file.path, data.src)
+        data.id = newData[index].rooms.length > 0 ? newData[index].rooms[0].id + 1 : 1;
+        newData[index].rooms = [data, ...newData[index].rooms]
+        client.set(`hotels`, JSON.stringify(newData)).then(() => {
+            res.json({ status: 200, message: 'Data saved successfully!' });
+        }).catch(err => {
+            console.error(err);
+            res.json({ status: 500, message: 'Error saving data' });
+        });
     });
+
+    // api endpoints to update a room
+    app.post('/api/update_room', upload.single('src'), async (req, res) => {
+        const hotelId = req.query.hotelId;
+        const data = req.body;
+        client.get(`hotels`).then(async (oldData) => {
+            let newData = oldData ? JSON.parse(oldData) : [];
+            const hotelIndex = newData.findIndex(hotel => hotel.id === hotelId);
+            const roomIndex = newData[hotelIndex].rooms.findIndex(room => room.id === data.id);
+            if (hotelIndex !== -1 && roomIndex !== -1) {
+                if (req.file) {
+                    (newData[hotelIndex].rooms[roomIndex] && fs.existsSync(newData[hotelIndex].rooms[roomIndex].src)) && fs.unlinkSync(newData[hotelIndex].rooms[roomIndex].src);
+                    data.src = `uploads/rooms/${data.title.replace(/\s+/g, '_')}.jpg`
+                    fs.renameSync(req.file.path, data.src);
+                }
+                newData[hotelIndex].rooms[roomIndex] = { ...newData[hotelIndex].rooms[roomIndex], ...data };
+                client.set(`hotels`, JSON.stringify(newData)).then(() => {
+                    res.json({ status: 200, message: 'Data saved successfully!' });
+                }).catch(err => {
+                    console.error(err);
+                    res.json({ status: 500, message: 'Error saving data' });
+                });
+            }
+        })
+    });
+
+    // api endpoints to delete a room
+    app.get('/api/delete_room/', async (req, res) => {
+        const hotelId = req.query.hotelId;
+        const roomId = req.query.roomId;
+        client.get(`hotels`).then(async (oldData) => {
+            let newData = oldData ? JSON.parse(oldData) : [];
+            const hotelIndex = newData.findIndex(hotel => hotel.id === hotelId);
+            const roomIndex = newData[hotelIndex].rooms.findIndex(room => parseInt(room.id) === parseInt(roomId));
+            if (hotelIndex !== -1 && roomIndex !== -1) {
+                fs.unlinkSync(newData[hotelIndex].rooms[roomIndex].src);
+                newData[hotelIndex].rooms.splice(roomIndex, 1);
+                client.set(`hotels`, JSON.stringify(newData)).then(() => {
+                    res.json({ status: 200, message: 'Data deleted successfully!' });
+                }).catch(err => {
+                    console.error(err);
+                    res.json({ status: 500, message: 'Error deleting data' });
+                });
+            } else {
+                res.json({ status: 404, message: 'Room not found' });
+            }
+        }).catch(err => res.json({ status: 500, message: 'Error getting data' }));
+    })
 
     // api endpoints to get package data
     app.get('/api/get_packages', async (req, res) => {

@@ -21,7 +21,7 @@ function Header() {
             <li><NavLink to={'/about'}>About Us</NavLink></li>
             <li><NavLink to={'/contact'}>Contact Us</NavLink></li>
             {
-              user?.username ? <li><ProfileDropdown /></li> : (
+              user ? <li><ProfileDropdown /></li> : (
                 <>
                   <li><NavLink to={'/signin'}>Signin</NavLink></li>
                   <li><NavLink to={'/signup'}>Signup</NavLink></li>

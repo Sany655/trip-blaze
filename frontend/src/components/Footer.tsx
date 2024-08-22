@@ -27,6 +27,8 @@ function Footer() {
                 <div className="flex flex-col items-start justify-center gap-2">
                     <Link to={'/contact'}>Contact Us</Link>
                     <Link to={'/about'}>About Us</Link>
+                    <Link to={'/hotel-signup'}>Hotel Manager Signup</Link>
+                    <Link to={'/hotel-signin'}>Hotel Manager Signin</Link>
                 </div>
             </div>
             <hr />

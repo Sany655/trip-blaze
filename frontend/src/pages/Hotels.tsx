@@ -45,12 +45,12 @@ const HotelCard = ({ hotel }) => {
       <img src={process.env.REACT_APP_server_path + src} alt={title} className="w-full rounded-lg mb-4" />
       <div>
         <h2 className="text-2xl font-bold mb-4">{title}</h2>
-        <div className="flex justify-between items-center mb-2">
+        {/* <div className="flex justify-between items-center mb-2">
           <span className="text-gray-500">{price} USD</span>
-        </div>
+        </div> */}
         <div className="flex justify-between items-center mb-2">
           <span className="text-green-500 font-bold">{location}</span>
-          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={() => setModalOpen(true)}>Book now</button>
+          {/* <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={() => setModalOpen(true)}>Book now</button> */}
         </div>
         <Modal
           isOpen={isModalOpen}

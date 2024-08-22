@@ -28,9 +28,10 @@ function Signin() {
     return (
         <form onSubmit={handleLogin} className="flex flex-col gap-4 p-8 rounded-md shadow-md md:w-2/3 lg:w-1/4 mx-auto my-20 md:my-44" ref={signinForm}>
             <h2 className="text-2xl font-bold text-center">Sign In</h2>
+            <input name='role' defaultValue={'user'} className="hidden" type='password' />
             <div>
                 <label htmlFor="user" className="block text-sm font-medium text-gray-700">
-                    Email or User Name
+                    Email or Username
                 </label>
                 <input
                     type="text"
