@@ -35,11 +35,12 @@ io.on('connection', (socket) => {
     });
 
     app.get('/api/get_messages', (req, res) => {
-        const title = req.query.title;
-        const user = req.query.user;
+        const hotelId = req.query.hotelId;
+        const userId = req.query.userId;
         client.get('messages').then(messages => {
             if (messages) {
-                res.json({ status: 200, messages: JSON.parse(messages).find(m => m.user.username === user && m.hotel.title === title) });
+                const userMessages = JSON.parse(messages).find(m => parseInt(m.user?.id) === parseInt(userId) && parseInt(m.hotel.id) === parseInt(hotelId));
+                res.json({ status: 200, messages: userMessages });
             } else {
                 res.json({ status: 404, message: 'No messages found!' });
             }
@@ -47,10 +48,13 @@ io.on('connection', (socket) => {
     })
 
     // api endpoints to get inbox for user
-    app.get('/api/get_all_inbox', async (req, res) => {
+    app.get('/api/get_hotel_inbox', async (req, res) => {
+        const hotelId = req.query.hotelId;
         client.get('messages').then(messages => {
             if (messages) {
-                res.json({ status: 200, messages: JSON.parse(messages) });
+                const hotelMessages = JSON.parse(messages).filter(m => parseInt(m.hotel.id) === parseInt(hotelId));
+                if (hotelMessages.length) res.json({ status: 200, messages: hotelMessages });
+                else res.json({ status: 404, message: 'No messages found!' });
             } else {
                 res.json({ status: 404, message: 'No messages found!' });
             }
@@ -72,11 +76,11 @@ io.on('connection', (socket) => {
     // api endpoints to set messages as user
     app.post('/api/set_message', upload.none(), async (req, res) => {
         const msg = req.body;
-        let reciever;
         client.get('messages').then(async messages => {
+            let allMsg = [];
             if (messages) {
                 allMsg = JSON.parse(messages);
-                const userMessages = allMsg.find(m => m.user?.username === msg.user.username && m.hotel.title === msg.hotel.title);
+                const userMessages = allMsg.find(m => m.user?.username === msg.user.username && m.hotel.hotelId === msg.hotel.hotelId);
 
                 if (userMessages) {
                     userMessages.messages.unshift(msg.messages[0]);  // Add the new message to the existing user's hotel conversation
@@ -89,12 +93,10 @@ io.on('connection', (socket) => {
 
             return await client.set('messages', JSON.stringify(allMsg));
         }).then(() => {
-            if (msg.messages[0].sender === 'admin') {
-                io.to(users[msg.user.username]).emit('receive_message');
-                console.log("emitting message to " + msg.user.username + " with id: " + users[msg.user.username]);
+            if (msg.messages[0].sender === 'manager') {
+                io.to(users[parseInt(msg.user.id)]).emit('receive_message');
             } else {
-                io.to(users['admin']).emit('receive_message');
-                console.log("emitting message to admin, id = " + users['admin']);
+                io.to(users[parseInt(msg.hotel.id)]).emit('receive_message');
             }
             res.json({ status: 200, message: 'Message sent successfully!' });
         }).catch(err => {
@@ -116,55 +118,61 @@ io.on('connection', (socket) => {
 
     // api endpoints to add review
     app.post('/api/add_review', upload.none(), async (req, res) => {
-        const { title, bookingType, rating, review, name, src } = req.body;
-        const newReview = { title, bookingType, rating, review, name, src };
-        newReview.date = new Date().toLocaleDateString('en-US', {
-            weekday: 'short', // "Wed"
-            year: 'numeric',  // "2024"
-            month: 'short',   // "Aug"
-            day: 'numeric'    // "14"
-        });
-        client.get('reviews').then(oldReviews => {
-            let newReviews = [];
-            if (oldReviews) {
-                newReviews = JSON.parse(oldReviews);
-                newReview.id = newReviews.length > 0 ? newReviews[0].id + 1 : 1;  // Assign a new ID
-            } else {
-                newReview.id = 1;  // First review ID
+        try {
+            const { title, bookingType, rating, review, name, src } = req.body;
+            const newReview = { title, bookingType, rating, review, name, src };
+
+            // Set review date
+            newReview.date = new Date().toLocaleDateString('en-US', {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+            });
+
+            // Retrieve existing reviews
+            const oldReviews = await client.get('reviews');
+            let newReviews = oldReviews ? JSON.parse(oldReviews) : [];
+
+            // Assign ID to the new review
+            newReview.id = newReviews.length > 0 ? newReviews[0].id + 1 : 1;
+
+            // Add the new review at the beginning of the list
+            newReviews.unshift(newReview);
+
+            // Save updated reviews
+            await client.set('reviews', JSON.stringify(newReviews));
+
+            // Retrieve existing bookings
+            const oldBookings = await client.get('bookings');
+            if (!oldBookings) {
+                return res.json({
+                    status: 404, message: 'No bookings found!'
+                });
             }
 
-            newReviews.unshift(newReview);  // Add the new review to the beginning
+            const bookings = JSON.parse(oldBookings);
 
-            client.set('reviews', JSON.stringify(newReviews)).then(() => {
-                client.get('bookings').then(oldBookings => {
-                    if (oldBookings) {
-                        const bookings = JSON.parse(oldBookings);
-                        const updatedBookings = bookings.map(booking => {
-                            if (booking.title.toLowerCase() === title.toLowerCase()) {
-                                booking.reviewed = true;  // Set reviewed to true for matching bookings
-                            }
-                            return booking;  // Return the updated booking
-                        });
-
-                        client.set('bookings', JSON.stringify(updatedBookings)).then(() => {
-                            res.json({ status: 200, message: 'Review added successfully and booking updated!' });
-                        }).catch(err => {
-                            res.json({ status: 500, message: 'Error updating bookings', error: err });
-                        });
-
-                    } else {
-                        res.json({ status: 404, message: 'No bookings found!' });
-                    }
-                }).catch(err => {
-                    res.json({ status: 500, message: 'Error retrieving bookings', error: err });
-                });
-            }).catch(err => {
-                res.json({ status: 500, message: 'Error saving reviews', error: err });
+            // Update bookings that match the title
+            const updatedBookings = bookings.map(booking => {
+                if (booking.title?.toLowerCase() === title.toLowerCase()) {
+                    booking.reviewed = true;
+                }
+                return booking;
             });
-        }).catch(err => {
-            res.json({ status: 500, message: 'Error retrieving reviews', error: err });
-        });
-    })
+
+            // Save updated bookings
+            await client.set('bookings', JSON.stringify(updatedBookings));
+
+            // Send success response
+            return res.json({ status: 200, message: 'Review added successfully and booking updated!' });
+
+        } catch (err) {
+            console.error('Error in /api/add_review:', err);
+            return res.json({ status: 500, message: 'Internal server error', error: err.message });
+        }
+    });
+
 
     // api endpoints to confirm booking confirmation
     app.post('/api/confirm_booking', upload.none(), async (req, res) => {
@@ -194,6 +202,16 @@ io.on('connection', (socket) => {
         };
     })
 
+    // api endpoints to get hotel bookings
+    app.get('/api/get_hotel_bookings', async (req, res) => {
+        const hotelId = req.query.hotelId;
+        let bookings = await client.get('bookings');
+        if (bookings) {
+            const allbookings = JSON.parse(bookings).filter(booking => booking.hotelId === hotelId);
+            res.json(allbookings);
+        };
+    })
+
     // api endpoints to get bookings by username
     app.get('/api/get_bookings', async (req, res) => {
         const username = req.query.username;
@@ -210,6 +228,7 @@ io.on('connection', (socket) => {
     app.post('/api/set_booking', upload.none(), async (req, res) => {
         const booking = req.body;
         booking.status = 'pending';
+        booking.reviewed = false;
         client.get('bookings').then(oldBookings => {
             if (oldBookings) {
                 booking.id = JSON.parse(oldBookings)[0].id + 1;
@@ -227,10 +246,10 @@ io.on('connection', (socket) => {
         try {
             const users = await client.get('users');
             const { username, email, password, role } = req.body;
-            if (users && JSON.parse(users).find(user => user.username === username && user.role === role)) {
+            if (users && JSON.parse(users).find(user => user.username === username)) {
                 return res.json({ status: 400, message: 'Username already exists' });
             }
-            else if (users && JSON.parse(users).find(user => user.email === email && user.role === role)) {
+            else if (users && JSON.parse(users).find(user => user.email === email)) {
                 return res.json({ status: 400, message: 'Email already exists' });
             }
         } catch (error) {
@@ -326,6 +345,35 @@ io.on('connection', (socket) => {
             res.json({ status: 500, message: 'Error saving data' });
         });
     });
+
+    // api endpoints to update place data
+    app.post('/api/update_place', upload.single("src"), async (req, res) => {
+        const data = req.body;
+        const oldData = await client.get(`places`);
+        let newData = [];
+        if (oldData) {
+            newData = JSON.parse(oldData);
+        }
+        const placeToUpdate = newData.find(place => place.title === data.title);
+        data.src = placeToUpdate.src;
+        if (placeToUpdate.title) {
+            if (req.file) {
+                data.src = `uploads/places/${data.title}.png`;
+                placeToUpdate.src && fs.existsSync(placeToUpdate.src) && fs.unlinkSync(placeToUpdate.src);
+                fs.renameSync(req.file.path, data.src);
+            }
+            const index = newData.indexOf(placeToUpdate);
+            newData.splice(index, 1, data);
+            client.set(`places`, JSON.stringify(newData)).then(() => {
+                res.json({ status: 200, message: 'Data updated successfully!' });
+            }).catch(err => {
+                console.error(err);
+                res.json({ status: 500, message: 'Error updating data' });
+            });
+        } else {
+            res.json({ status: 404, message: 'Place not found' });
+        }
+    })
 
     // api endpoints to delete place data
     app.delete('/api/delete_place/:title', async (req, res) => {
@@ -645,6 +693,35 @@ io.on('connection', (socket) => {
             res.json({ status: 500, message: 'Error saving data' });
         });
     });
+
+    // api endpoints to update package data
+    app.post('/api/update_package', upload.single("src"), async (req, res) => {
+        const data = req.body;
+        const oldData = await client.get(`packages`);
+        let newData = [];
+        if (oldData) {
+            newData = JSON.parse(oldData);
+        }
+        const placeToUpdate = newData.find(place => place.title === data.title);
+        data.src = placeToUpdate.src;
+        if (placeToUpdate.title) {
+            if (req.file) {
+                data.src = `uploads/packages/${data.title}.png`;
+                placeToUpdate.src && fs.existsSync(placeToUpdate.src) && fs.unlinkSync(placeToUpdate.src);
+                fs.renameSync(req.file.path, data.src);
+            }
+            const index = newData.indexOf(placeToUpdate);
+            newData.splice(index, 1, data);
+            client.set(`packages`, JSON.stringify(newData)).then(() => {
+                res.json({ status: 200, message: 'Data updated successfully!' });
+            }).catch(err => {
+                console.error(err);
+                res.json({ status: 500, message: 'Error updating data' });
+            });
+        } else {
+            res.json({ status: 404, message: 'Package not found' });
+        }
+    })
 
     // api endpoints to delete hotel data
     app.delete('/api/delete_package/:title', async (req, res) => {

@@ -29,14 +29,18 @@ import ManageChatbox from './pages/manager/ManageChatbox.tsx';
 import { useEffect } from 'react';
 import ManagerSignin from './pages/manager/ManagerSignin.tsx';
 import ManagerSignup from './pages/manager/ManagerSignup.tsx';
+import Tour from './pages/Tour.tsx';
+import Hotel from './pages/Hotel.tsx';
+import ManagerBooking from './pages/manager/ManagerBooking.tsx';
+import Package from './pages/Package.tsx';
 
 function App() {
   axios.defaults.baseURL = process.env.REACT_APP_server_path+'api/';
   const { user, socket } = useAuth();
 
   useEffect(() => {
-    socket.emit('register', user?.username);
-  }, [user?.username])
+    socket.emit('register', user?.id);
+  }, [user?.id])
 
   return (
     <BrowserRouter>
@@ -44,16 +48,19 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/tours' element={<Tours />} />
+        <Route path='/tour' element={<Tour />} />
         <Route path='/packages' element={<Packages />} />
+        <Route path='/package' element={<Package />} />
         <Route path='/transports' element={<Transportation />} />
         <Route path='/hotels' element={<Hotels />} />
+        <Route path='/hotel' element={<Hotel />} />
         <Route path='/blogs' element={<Blog />} />
         <Route path='/blog/:title' element={<Post />} />
         <Route path='/reviews' element={<Reviews />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<ContactUs />} />
         <Route path='/' element={(!user && user?.role != 'user') ? <Navigate to="/" replace /> : <Outlet />}>
-          <Route path='/messages/:title' element={<ChatBox />} />
+          <Route path='/messages/:hotelId' element={<ChatBox />} />
           <Route path='/messages' element={<Message />} />
           <Route path='/my-bookings' element={<MyBookings />} />
         </Route>
@@ -72,9 +79,9 @@ function App() {
         </Route>
         <Route path='manager' element={(!user && user?.role != 'manager') ? <Navigate to="/" replace /> : <Outlet />}>
           <Route path='hotel' element={<ManageHotel />} />
-          <Route path='bookings' element={<ManageBooking />} />
+          <Route path='bookings' element={<ManagerBooking />} />
           <Route path='messages' element={<ManageMessages />} />
-          <Route path='messages/:title/:username' element={<ManageChatbox />} />
+          <Route path='messages/:userId' element={<ManageChatbox />} />
         </Route>
       </Routes>
       <Footer />

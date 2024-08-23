@@ -6,13 +6,12 @@ import useAuth from '../../hooks/useAuth';
 const ManageChatbox: React.FC = () => {
     const [inbox, setInbox] = useState({});
     const { user, socket } = useAuth()
-    const { title, username } = useParams();
+    const { userId } = useParams();
     const msgFormRef = useRef()
 
     function getInbox() {
-        axios.get('/get_messages?title=' + title + '&user=' + username).then(response => {
+        axios.get('/get_messages?hotelId=' + user.id + '&userId=' + userId).then(response => {
             if (response.data.status === 200) setInbox(response.data.messages);
-
         }).catch(error => console.error(error));
     }
 
@@ -33,16 +32,17 @@ const ManageChatbox: React.FC = () => {
         const msg = msgFormRef.current.user_message.value;
         const data = {
             hotel: {
-                location: inbox.hotel.location, title: inbox.hotel.title, date: inbox.hotel.date, status: inbox.hotel.status, room: inbox.hotel.room, price: inbox.hotel.price
+                title: inbox.hotel.title, id: inbox.hotel.id, src: inbox.hotel.src
             },
             user: {
-                username: inbox?.user?.username,
-                image: inbox?.user?.image,
-                email: inbox?.user?.email
+                id: inbox.user.id,
+                username: inbox.user.username,
+                image: inbox.user.image,
+                email: inbox.user.email
             },
             messages: [
                 {
-                    sender: 'admin',
+                    sender: 'manager',
                     content: msg,
                     read: false,
                     time: new Date().toLocaleTimeString()
@@ -61,20 +61,6 @@ const ManageChatbox: React.FC = () => {
 
     return (
         <div className="flex flex-col w-full mx-auto max-w-xl bg-white shadow-lg rounded-lg ">
-            {/* hotel profile */}
-            <div className="flex flex-col justify-between bg-white p-4 border shadow-md">
-                <h2 className="text-2xl font-bold mb-4">{inbox?.hotel?.title}</h2>
-                <p className="mb-4"><span className='text-green-600'>{inbox?.hotel?.location}</span> Hotel</p>
-                <div className="flex justify-between items-center mb-2">
-                    <span className="">Booked at: {inbox?.hotel?.date}</span>
-                    <span className={`text-gray-500 p-2 text-white rounded-full ${inbox?.hotel?.status === 'pending' ? 'bg-yellow-500' : 'bg-green-500'}`}>{inbox?.hotel?.status}</span>
-                </div>
-                <div className="flex justify-between items-center mb-2">
-                    <span className="text-green-500 font-bold">Rooms : {inbox?.hotel?.room}</span>
-                    <span className="text-green-500 font-bold">{inbox?.hotel?.price} USD</span>
-                </div>
-            </div>
-
             {/* user profile */}
             <div className="flex items-center justify-between p-4 bg-white shadow-md">
                 {/* Left Section: Profile Picture and User Info */}
@@ -128,6 +114,7 @@ const ManageChatbox: React.FC = () => {
                     type="text"
                     placeholder="Type a message..."
                     className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-green-300"
+                    autoComplete='off'
                 />
                 <button
                     className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300"

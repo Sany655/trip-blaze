@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 const Message = () => {
   const [messages, setMessages] = useState([])
   const [msg, setMsg] = useState('')
-  const {user} = useAuth();
-  
-  useEffect(() => {
+  const { user, socket } = useAuth();
+
+  function getInbox() {
     axios.get('/get_inbox?user=' + user.username).then(m => {
       if (m.data.status == 200) {
         setMessages(m.data.messages)
@@ -16,6 +16,17 @@ const Message = () => {
         setMsg(m.data.message)
       }
     })
+  }
+
+  useEffect(() => {
+    getInbox()
+    socket.on('receive_message', () => {
+      getInbox()
+    });
+
+    return () => {
+      socket.off('receive_message');
+    };
   }, [])
 
   return (
@@ -24,10 +35,10 @@ const Message = () => {
         <h1 className="text-center text-3xl">{msg}</h1>
       </div >
     ) : (
-      <div className={`${messages.length < 4? 'h-80 my-20' : ''} max-w-xl mx-auto rounded-lg`}>
+      <div className={`${messages.length < 4 ? 'h-80 my-20' : ''} max-w-xl mx-auto rounded-lg`}>
         {
           messages.map((chat, index) => (
-            <Link to={'/messages/' + chat.hotel.title} key={index}>
+            <Link to={'/messages/' + chat.hotel.id} key={index}>
               <div className={`flex items-center p-4 border-b hover:bg-gray-100 shadow-md ${chat.read ? 'bg-blue-50' : ''}`}>
                 <div className="ml-4 flex-grow">
                   <div className="flex justify-between items-center">

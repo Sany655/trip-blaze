@@ -48,7 +48,6 @@ function ManageTransport() {
             <form className={`flex flex-col items-center gap-2 mb-8 shadow py-14 shadow-lg ${isOpen ? "block" : "hidden"}`} onSubmit={handleSubmit} method='post' ref={transportForm}>
                 <h3 className="text-2xl">Create Transport</h3>
                 <p>Create them in regular basis</p>
-                {/* <input required type="text"  placeholder='Title' name='type' /> */}
                 <select name="type" className="md:w-1/3 p-4 my-2 border">
                     <option value="">Chose a transportation</option>
                     <option value="bus">Bus</option>

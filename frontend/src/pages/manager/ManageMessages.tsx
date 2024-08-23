@@ -1,19 +1,32 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const ManageMessages = () => {
   const [messages, setMessages] = useState([])
   const [msg, setMsg] = useState('')
-  
-  useEffect(() => {
-    axios.get('/get_all_inbox').then(m => {
+  const { user, socket } = useAuth();
+
+  function getInbox() {
+    axios.get('/get_hotel_inbox?hotelId=' + user.id).then(m => {
       if (m.data.status == 200) {
         setMessages(m.data.messages)
       } else {
         setMsg(m.data.message)
       }
     })
+  }
+
+  useEffect(() => {
+    getInbox()
+    socket.on('receive_message', () => {
+      getInbox()
+    });
+
+    return () => {
+      socket.off('receive_message');
+    };
   }, [])
 
   return (
@@ -22,14 +35,14 @@ const ManageMessages = () => {
         <h1 className="text-center text-3xl">{msg}</h1>
       </div >
     ) : (
-      <div className={`${messages.length < 4? 'h-80 my-20' : ''} max-w-xl mx-auto rounded-lg`}>
+      <div className={`${messages.length < 4 ? 'h-80 my-20' : ''} max-w-xl mx-auto rounded-lg`}>
         {
           messages.map((chat, index) => (
-            <Link to={chat.hotel.title+'/'+chat.user.username} key={index}>
+            <Link to={'' + chat.user.id} key={index}>
               <div className={`flex items-center p-4 border-b hover:bg-gray-100 shadow-md ${chat.read ? 'bg-blue-50' : ''}`}>
                 <div className="ml-4 flex-grow">
                   <div className="flex justify-between items-center">
-                    <span className="font-semibold">{chat.hotel?.title} by {chat.user.username}</span>
+                    <span className="font-semibold">{chat.user.username}</span>
                     <span className="text-sm text-gray-500">{chat.messages[0].time}</span>
                   </div>
                   <div className="text-sm text-gray-600">

@@ -6,11 +6,11 @@ import { useParams } from 'react-router-dom';
 const ChatBox: React.FC = () => {
     const [inbox, setInbox] = useState({});
     const { socket, user } = useAuth()
-    const { title } = useParams();
+    const { hotelId } = useParams();
     const msgFormRef = useRef()
 
     function getInbox() {
-        axios.get('/get_messages?title=' + title + '&user=' + user.username).then(response => {
+        axios.get('/get_messages?hotelId=' + hotelId + '&userId=' + user.id).then(response => {
             if (response.data.status === 200) setInbox(response.data.messages);
         }).catch(error => console.error(error));
     }
@@ -31,9 +31,10 @@ const ChatBox: React.FC = () => {
         const msg = msgFormRef.current.user_message.value;
         const data = {
             hotel: {
-                location: inbox.hotel.location, title: inbox.hotel.title, date: inbox.hotel.date, status: inbox.hotel.status, room: inbox.hotel.room, price: inbox.hotel.price
+                title:inbox.hotel.title, id:inbox.hotel.id, src:inbox.hotel.src
             },
             user: {
+                id: user.id,
                 username: user.username,
                 image: user.image,
                 email: user.email
@@ -60,17 +61,9 @@ const ChatBox: React.FC = () => {
     return (
         <div className="flex flex-col w-full mx-auto max-w-xl bg-white shadow-lg rounded-lg ">
             {/* hotel profile */}
-            <div className="flex flex-col justify-between bg-white p-4 border shadow-md">
-                <h2 className="text-2xl font-bold mb-4">{inbox?.hotel?.title}</h2>
-                <p className="mb-4"><span className='text-green-600'>{inbox?.hotel?.location}</span> Hotel</p>
-                <div className="flex justify-between items-center mb-2">
-                    <span className="">Booked at: {inbox?.hotel?.date}</span>
-                    <span className={`text-gray-500 p-2 text-white rounded-full ${inbox?.hotel?.status === 'pending' ? 'bg-yellow-500' : 'bg-green-500'}`}>{inbox?.hotel?.status}</span>
-                </div>
-                <div className="flex justify-between items-center mb-2">
-                    <span className="text-green-500 font-bold">Rooms : {inbox?.hotel?.room}</span>
-                    <span className="text-green-500 font-bold">{inbox?.hotel?.price} USD</span>
-                </div>
+            <div className="flex items-center bg-white p-4 border shadow-md gap-4">
+                <img src={process.env.REACT_APP_server_path+inbox.hotel?.src} alt="" className='w-12 h-12 rounded-full'/>
+                <h2 className="text-2xl font-bold">{inbox?.hotel?.title}</h2>
             </div>
 
             {/* Chat Messages */}
@@ -98,6 +91,7 @@ const ChatBox: React.FC = () => {
                     type="text"
                     placeholder="Type a message..."
                     className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                    autoComplete='off'
                 />
                 <button
                     className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"

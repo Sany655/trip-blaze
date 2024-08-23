@@ -25,3 +25,6 @@ https://gozayaan.com/
 ### emails
 email: tripblaze71@gmail.com
 password: TripBlazeFinalProject@Varsity71
+
+
+<!-- hotel manager and user credential are different -->

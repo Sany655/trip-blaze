@@ -47,46 +47,6 @@ const TourCard = ({ booking, confirmBooking }) => {
     );
 };
 
-const HotelCard = ({ booking, confirmBooking }) => {
-    const { bookingType, location, title, date, status, room, price, id } = booking;
-
-    return (
-        <div className="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-green-800">{title} {bookingType}</h2>
-                <span className={`px-3 py-1 rounded-full text-sm font-semibold flex items-center ${status === 'pending' ? 'bg-yellow-500 text-white' : 'bg-green-500 text-white'}`}>
-                    <i className={`fas ${status === 'pending' ? 'fa-hourglass-half' : 'fa-check-circle'} mr-1`}></i>
-                    <span>{status}</span>
-                </span>
-            </div>
-
-            <div className="mt-3">
-                <p className="text-md text-gray-600">
-                    <i className="fas fa-map-marker-alt text-green-800 mr-1"></i> {location}
-                </p>
-                <p className="text-md text-gray-600">
-                    <i className="fas fa-calendar-alt text-green-800 mr-1"></i> {date}
-                </p>
-                <p className="text-md text-gray-600">
-                    <i className="fas fa-bed text-green-800 mr-1"></i> {room} Room{room > 1 ? 's' : ''}
-                </p>
-
-                <p className="text-lg font-bold text-green-800 mt-2">
-                    <i className="fas fa-dollar-sign mr-1"></i> {price} USD
-                </p>
-            </div>
-
-            {
-                status === 'pending' && (<div className="border-t border-gray-200 pt-4">
-                    <button className="mt-4 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300" onClick={() => confirmBooking(id)}>
-                        <i className={`fas ${status === 'pending' ? 'fa-hourglass-half' : 'fa-check-circle'} mr-1`}></i> Confirm Booking
-                    </button>
-                </div>)
-            }
-        </div>
-    );
-};
-
 const PackageCard = ({ booking, confirmBooking }) => {
     const { bookingType, location, title, date, status, days, price, type, id } = booking;
 
@@ -235,8 +195,6 @@ function ManageBooking() {
                     switch (booking.bookingType) {
                         case "tour":
                             return <TourCard booking={booking} key={index} confirmBooking={confirmBooking} />
-                        case "hotel":
-                            return <HotelCard booking={booking} key={index} confirmBooking={confirmBooking} />
                         case "package":
                             return <PackageCard booking={booking} key={index} confirmBooking={confirmBooking} />
                         case "transport":

@@ -105,37 +105,18 @@ const TourCard = ({ booking, fetchBookings }) => {
     );
 };
 
-const HotelCard = ({ booking }) => {
-    const { bookingType, location, title, date, status, room, price } = booking;
-    const [isModalOpen, setModalOpen] = useState(false);
-    const messageFormRef = React.useRef(null);
-    const { user, socket } = useAuth()
+const HotelCard = ({ booking, fetchBookings }) => {
+    const { hotelId, roomId, date, bookingType, price, title, size, status, reviewed } = booking;
+    const [reviewModal, setReviewModal] = useState(false)
+    const { user } = useAuth()
 
-    const handleSubmit = e => {
-        e.preventDefault()
-        const msg = messageFormRef.current.user_message.value;
-        const data = {
-            hotel: {
-                location, title, date, status, room, price
-            },
-            user: {
-                username: user.username,
-                image: user.image,
-                email: user.email
-            },
-            messages: [
-                {
-                    sender: 'user',
-                    content: msg,
-                    read: false,
-                    time: new Date().toLocaleTimeString()
-                }
-            ]
-        }
-        axios.post('/set_message', data).then((response) => {
+    function handleReviewSubmit(e) {
+        e.preventDefault();
+        axios.post('/add_review', { title, bookingType, rating: e.target.rating.value, review: e.target.review.value, name: user.username, src: user.image }).then((response) => {
             if (response.data.status === 200) {
-                setModalOpen(false);
-                messageFormRef.current.reset();
+                setReviewModal(false);
+                e.target.reset();
+                fetchBookings();
                 alert(response.data.message)
             } else {
                 alert(response.data.message)
@@ -155,13 +136,10 @@ const HotelCard = ({ booking }) => {
                 </div>
                 <div className="">
                     <p className="text-md text-gray-600">
-                        <i className="fas fa-map-marker-alt text-green-800 mr-1"></i> {location}
-                    </p>
-                    <p className="text-md text-gray-600">
                         <i className="fas fa-calendar-alt text-green-800 mr-1"></i> {date}
                     </p>
                     <p className="text-md text-gray-600">
-                        <i className="fas fa-bed text-green-800 mr-1"></i> {room} Room{room > 1 ? 's' : ''}
+                        <i className="fas fa-bed text-green-800 mr-1"></i> {size}
                     </p>
 
                     <p className="text-lg font-bold text-green-800 mt-2">
@@ -171,28 +149,50 @@ const HotelCard = ({ booking }) => {
             </div>
 
             <div className="border-t border-gray-200 pt-4">
-                <button className="mt-4 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300" onClick={() => setModalOpen(true)}>
-                    <i className="fas fa-paper mr-2"></i> Contact
-                </button>
+                {
+                    status === 'confirmed' && (reviewed ? (
+                        <button className="mt-4 w-full bg-green-800 text-white py-2 rounded-lg" disabled>
+                            <i className="fas fa-right mr-2"></i> Reviewed
+                        </button>
+                    ) : (
+                        <button className="mt-4 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300" onClick={() => setReviewModal(true)}>
+                            <i className="fas fa-paper mr-2"></i> Write Review
+                        </button>
+                    ))
+                }
+                <Modal title={`Write a Review for ${booking.title}`} onClose={() => setReviewModal(false)} isOpen={reviewModal}>
+                    <form onSubmit={handleReviewSubmit} className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Rating</label>
+                            <select
+                                name='rating'
+                                required
+                                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                            >
+                                {[5, 4, 3, 2, 1].map((rate) => (
+                                    <option key={rate} value={rate}>
+                                        {rate} Star{rate > 1 && 's'}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Review</label>
+                            <textarea
+                                name='review'
+                                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                                required
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+                        >
+                            Submit Review
+                        </button>
+                    </form>
+                </Modal>
             </div>
-            <Modal title={`Write message to ${booking.title} ${booking.bookingType}`} onClose={() => setModalOpen(false)} isOpen={isModalOpen}>
-                <form onSubmit={handleSubmit} className="space-y-4" ref={messageFormRef}>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Message</label>
-                        <textarea
-                            name='user_message'
-                            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                            required
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
-                    >
-                        Send Message
-                    </button>
-                </form>
-            </Modal>
         </div>
     );
 };
@@ -297,7 +297,7 @@ const PackageCard = ({ booking, fetchBookings }) => {
 const TransportCard = ({ booking }) => {
     const { bookingType, journeyTicket, status, tripType, user, returnTicket } = booking;
     return (
-        <div className="bg-white border border-gray-300 rounded-lg shadow-lg p-6 capitalize">
+        <div className="bg-white rounded-lg shadow-lg p-6 capitalize">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold text-green-800">
                     {tripType} {bookingType}
@@ -386,7 +386,7 @@ function MyBookings() {
                                     case "tour":
                                         return <TourCard booking={booking} key={index} fetchBookings={fetchBookings} />
                                     case "hotel":
-                                        return <HotelCard booking={booking} key={index} />
+                                        return <HotelCard booking={booking} key={index} fetchBookings={fetchBookings}/>
                                     case "package":
                                         return <PackageCard booking={booking} key={index} fetchBookings={fetchBookings} />
                                     case "transport":
