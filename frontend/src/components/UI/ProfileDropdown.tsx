@@ -68,14 +68,6 @@ const ProfileDropdown: React.FC = () => {
                                         Manage Packages
                                     </Link>
                                     <Link
-                                        to="admin/transports"
-                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
-                                        role="menuitem"
-                                    >
-                                        <i className='me-3 fa fa-bus'></i>
-                                        Manage Transportation
-                                    </Link>
-                                    <Link
                                         to="admin/blogs"
                                         className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
                                         role="menuitem"
@@ -91,19 +83,11 @@ const ProfileDropdown: React.FC = () => {
                                         <i className='me-3 fa fa-calendar-check'></i>
                                         Manage Bookings
                                     </Link>
-                                    {/* <Link
-                                        to="admin/reviews"
-                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
-                                        role="menuitem"
-                                    >
-                                        <i className='me-3 fa fa-star'></i>
-                                        Manage Reviews
-                                    </Link> */}
                                 </>
-                            ) : user.role === 'manager' && (
+                            ) : user.role === 'hotel-manager' ? (
                                 <>
                                     <Link
-                                        to="manager/hotel"
+                                        to="hotel-manager/hotel"
                                         className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
                                         role="menuitem"
                                     >
@@ -111,7 +95,7 @@ const ProfileDropdown: React.FC = () => {
                                         My Hotel
                                     </Link>
                                     <Link
-                                        to="manager/bookings"
+                                        to="hotel-manager/bookings"
                                         className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
                                         role="menuitem"
                                     >
@@ -119,12 +103,23 @@ const ProfileDropdown: React.FC = () => {
                                         Manage Bookings
                                     </Link>
                                     <Link
-                                        to="manager/messages"
+                                        to="hotel-manager/messages"
                                         className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
                                         role="menuitem"
                                     >
                                         <i className='me-3 fa fa-message'></i>
                                         Messages
+                                    </Link>
+                                </>
+                            ) : user.role === 'transport-manager' && (
+                                <>
+                                    <Link
+                                        to="transport-manager/transports"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-bus'></i>
+                                        Manage Transportation
                                     </Link>
                                 </>
                             )

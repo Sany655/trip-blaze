@@ -106,7 +106,7 @@ const TourCard = ({ booking, fetchBookings }) => {
 };
 
 const HotelCard = ({ booking, fetchBookings }) => {
-    const { hotelId, roomId, date, bookingType, price, title, size, status, reviewed } = booking;
+    const { hotelId, roomId, date, bookingType, price, title, size, status, reviewed, hotelTitle } = booking;
     const [reviewModal, setReviewModal] = useState(false)
     const { user } = useAuth()
 
@@ -128,12 +128,13 @@ const HotelCard = ({ booking, fetchBookings }) => {
         <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-between">
             <div className="flex flex-col gap-1">
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold text-green-800">{title} {bookingType}</h2>
+                    <h2 className="text-2xl font-bold text-green-800">{hotelTitle} {bookingType}</h2>
                     <span className={`px-3 py-1 rounded-full text-sm font-semibold flex items-center ${status === 'pending' ? 'bg-yellow-500 text-white' : 'bg-green-500 text-white'}`}>
                         <i className={`fas ${status === 'pending' ? 'fa-hourglass-half' : 'fa-check-circle'} mr-1`}></i>
                         <span>{status}</span>
                     </span>
                 </div>
+                <h3 className="text-xl font-bold text-green-800">{title} Room</h3>
                 <div className="">
                     <p className="text-md text-gray-600">
                         <i className="fas fa-calendar-alt text-green-800 mr-1"></i> {date}
@@ -295,12 +296,12 @@ const PackageCard = ({ booking, fetchBookings }) => {
 }
 
 const TransportCard = ({ booking }) => {
-    const { bookingType, journeyTicket, status, tripType, user, returnTicket } = booking;
+    const { bookingType, journeyTicket, status, tripType, user, returnTicket, person } = booking;
     return (
         <div className="bg-white rounded-lg shadow-lg p-6 capitalize">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold text-green-800">
-                    {tripType} {bookingType}
+                    {tripType} {bookingType} for {person} Person
                 </h2>
                 <span className={`px-3 py-1 rounded-full text-sm font-semibold flex items-center ${status === 'pending' ? 'bg-yellow-500 text-white' : 'bg-green-500 text-white'}`}>
                     <i className={`fas ${status === 'pending' ? 'fa-hourglass-half' : 'fa-check-circle'} mr-1`}></i>
@@ -386,7 +387,7 @@ function MyBookings() {
                                     case "tour":
                                         return <TourCard booking={booking} key={index} fetchBookings={fetchBookings} />
                                     case "hotel":
-                                        return <HotelCard booking={booking} key={index} fetchBookings={fetchBookings}/>
+                                        return <HotelCard booking={booking} key={index} fetchBookings={fetchBookings} />
                                     case "package":
                                         return <PackageCard booking={booking} key={index} fetchBookings={fetchBookings} />
                                     case "transport":

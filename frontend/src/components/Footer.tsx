@@ -22,13 +22,12 @@ function Footer() {
                     <Link to={'/hotels'}>Book Hotel Rooms</Link>
                     <Link to={'/transports'}>Book a Transport</Link>
                     <Link to={'/blogs'}>Our Latest Articles</Link>
-                    <Link to={'/reviews'}>Customer Reviews</Link>
                 </div>
                 <div className="flex flex-col items-start justify-center gap-2">
+                    <Link to={'/reviews'}>Customer Reviews</Link>
                     <Link to={'/contact'}>Contact Us</Link>
                     <Link to={'/about'}>About Us</Link>
-                    <Link to={'/hotel-signup'}>Hotel Manager Signup</Link>
-                    <Link to={'/hotel-signin'}>Hotel Manager Signin</Link>
+                    <Link to={'/transport-signin'}>Transport Manager</Link>
                 </div>
             </div>
             <hr />

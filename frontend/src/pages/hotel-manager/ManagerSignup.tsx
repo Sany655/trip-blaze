@@ -47,7 +47,7 @@ function ManagerSignup() {
         <div className="p-8 rounded-md shadow-md md:w-md lg:max-w-xl mx-auto my-28">
             <h2 className="text-2xl font-bold text-center mb-8">Hotel Manager Signup</h2>
             <form onSubmit={handleSubmit} ref={signupForm} encType='multipart/form-data' className={step1 ? 'hidden' : "block"}>
-                <input name='role' defaultValue='manager' className="hidden" type='password' />
+                <input name='role' defaultValue='hotel-manager' className="hidden" type='password' />
                 <div className="grid grid-cols-1 gap-4 my-4">
                     <div>
                         <label htmlFor="username" className="block text-sm font-medium text-gray-700">

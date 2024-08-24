@@ -35,10 +35,11 @@ function Package() {
                             e.preventDefault();
                             const formdata = {}
                             formdata.date = bookingFormRef?.current.date.value;
+                            formdata.person = bookingFormRef?.current.person.value;
                             formdata.bookingType = pakage.bookingType;
                             formdata.days = days;
                             formdata.location = location;
-                            formdata.price = price;
+                            formdata.price = price * bookingFormRef?.current.person.value;
                             formdata.title = title;
                             formdata.type = type;
                             if (new Date(formdata.date) < new Date()) {
@@ -51,6 +52,7 @@ function Package() {
                             ref={bookingFormRef}
                         >
                             <input required type="date" name="date" id="date" className='border border-1 p-2 me-2' />
+                            <input required type="number" name="person" id="person" className='border border-1 p-2 me-2' placeholder='person' defaultValue={1} min={1} max={50}/>
                             <button className="bg-green-500 px-4 py-2 text-white">Book</button>
                         </form>
                     </Modal>

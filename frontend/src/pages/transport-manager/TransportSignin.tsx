@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import axios from 'axios'
 import useAuth from '../../hooks/useAuth';
-function ManagerSignin() {
+function TransportSignin() {
     const signinForm = useRef();
     const { setUser } = useAuth();
     const [info, setInfo] = useState()
@@ -27,11 +27,11 @@ function ManagerSignin() {
 
     return (
         <form onSubmit={handleLogin} className="flex flex-col gap-4 p-8 rounded-md shadow-md md:w-2/3 lg:w-1/4 mx-auto my-20 md:my-44" ref={signinForm}>
-            <h2 className="text-2xl font-bold text-center">Hotel Manager Signin</h2>
-            <input name='role' defaultValue={'manager'} className="hidden" type='password' />
+            <h2 className="text-2xl font-bold text-center">Transport Manager Signin</h2>
+            <input name='role' defaultValue={'transport-manager'} className="hidden" type='password' />
             <div>
                 <label htmlFor="user" className="block text-sm font-medium text-gray-700">
-                    Email or Username
+                    Email or Username 
                 </label>
                 <input
                     type="text"
@@ -69,4 +69,4 @@ function ManagerSignin() {
     );
 }
 
-export default ManagerSignin
+export default TransportSignin

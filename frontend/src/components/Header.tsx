@@ -17,14 +17,14 @@ function Header() {
             <li><NavLink to={'/packages'}>Packages</NavLink></li>
             <li><NavLink to={'/transports'}>Transportation</NavLink></li>
             <li><NavLink to={'/blogs'}>Blogs</NavLink></li>
-            <li><NavLink to={'/reviews'}>Reviews</NavLink></li>
             <li><NavLink to={'/about'}>About Us</NavLink></li>
-            <li><NavLink to={'/contact'}>Contact Us</NavLink></li>
             {
               user ? <li><ProfileDropdown /></li> : (
                 <>
                   <li><NavLink to={'/signin'}>Signin</NavLink></li>
                   <li><NavLink to={'/signup'}>Signup</NavLink></li>
+                  <li><NavLink to={'/hotel-signup'}>Hotel Manager Signup</NavLink></li>
+                  <li><NavLink to={'/hotel-signin'}>Hotel Manager Signin</NavLink></li>
                 </>
               )
             }

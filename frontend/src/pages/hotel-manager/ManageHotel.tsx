@@ -71,11 +71,6 @@ const HotelCard = ({ id, title, location, src, description, rooms, floors, const
             <div className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between my-2">
                 <div className="lg:flex justify-between gap-4">
                     {src && <img src={process.env.REACT_APP_server_path + src} alt={title} className="w-98 rounded-lg mb-4" />}
-                    {/* <div className="flex flex-col gap-2 my-4">
-                        <h1 className="text-2xl font-bold">Manager</h1>
-                        <p>{user.username}</p>
-                        <p>{user.email}</p>
-                    </div> */}
                 </div>
                 <div>
                     <h2 className="text-2xl font-bold mb-4">Hotel Name: {title}</h2>
@@ -216,7 +211,7 @@ const HotelCard = ({ id, title, location, src, description, rooms, floors, const
                             <input type="number" name="id" defaultValue={id} className='hidden'/>
                             <input type="text" className="p-2 border rounded" name='title' placeholder='Title' required />
                             <input type="file" name="src" id="" required />
-                            <textarea className="p-2 border rounded" name='occupancy' placeholder='Occupancy' required></textarea>
+                            <textarea className="p-2 border rounded" name='occupancy' placeholder='Occupancy' required defaultValue={'Adult: , Child: ,  Maximum Number of Guests Allowed: '}></textarea>
                             <textarea className="p-2 border rounded" name='roomCharacteristics' placeholder='Room Characteristics' required></textarea>
                             <input type="text" className="p-2 border rounded" name='roomSize' placeholder='Room Size' required />
                             <textarea className="p-2 border rounded" name='facilities' placeholder='Facilities' required></textarea>
@@ -243,14 +238,15 @@ const RoomCart = ({ id, title, src, occupancy, roomCharacteristics, roomSize, fa
         setStatus(true)
         e.preventDefault()
         const formData = new FormData(e.target);
-        axios.post(`/update_room?hotelId=${user.id}`, formData)
+        formData.append('hotelId', user.id);
+        axios.post(`/update_room`, formData)
             .then(response => {
                 if (response.data.status === 200) {
-                    alert('Room updated successfully');
+                    alert(response.data.message);
                     setRoomEditModal(false);
                     getHotel()
                 } else {
-                    setInfo('Failed to update room');
+                    setInfo(response.data.message);
                 }
             })
             .finally(() => setStatus(false));
@@ -282,7 +278,7 @@ const RoomCart = ({ id, title, src, occupancy, roomCharacteristics, roomSize, fa
                     <p className="text-md"><span className='font-semibold'>Price: </span> {price} USD</p>
                     <div className="flex gap-3">
                         <button className="bg-yellow-500 text-white px-4 py-2 rounded mt-4" onClick={() => setRoomEditModal(true)}>Edit</button>
-                        <Modal title={"Create Room"} isOpen={roomEditModal} onClose={() => setRoomEditModal(false)}>
+                        <Modal title={"Update Room"} isOpen={roomEditModal} onClose={() => setRoomEditModal(false)}>
                             <form className={`flex flex-col gap-3`} onSubmit={handleRoomUpdate} method='post' encType='multipart/form-data'>
                                 <input type="hidden" name="id" defaultValue={id} />
                                 <input type="text" className="p-2 border rounded" name='title' placeholder='Title' required defaultValue={title} />
@@ -292,10 +288,11 @@ const RoomCart = ({ id, title, src, occupancy, roomCharacteristics, roomSize, fa
                                 <input type="text" className="p-2 border rounded" name='roomSize' placeholder='Room Size' required defaultValue={roomSize} />
                                 <textarea className="p-2 border rounded" name='facilities' placeholder='Facilities' required defaultValue={facilities}></textarea>
                                 <input type="text" className="p-2 border rounded" name='price' placeholder='Price' required defaultValue={price} />
-                                <button className="bg-green-500 px-8 py-2 focus:bg-green-700">{status ? 'Updating...' : 'Update'}</button>
+                                <button className="bg-green-500 px-8 py-2">{status ? 'Updating...' : 'Update'}</button>
+                                {info && <p className="text-red-500">{info}</p>}
                             </form>
                         </Modal>
-                        <button className="bg-red-500 text-white px-4 py-2 rounded mt-4" onClick={() => handleDeleteRoom(id)}>Delete</button>
+                        <button className="bg-red-500 text-white px-4 py-2 rounded mt-4 text-center" onClick={() => handleDeleteRoom(id)}>Delete</button>
                     </div>
                 </div>
             </div>

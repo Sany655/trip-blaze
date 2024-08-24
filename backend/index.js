@@ -173,7 +173,6 @@ io.on('connection', (socket) => {
         }
     });
 
-
     // api endpoints to confirm booking confirmation
     app.post('/api/confirm_booking', upload.none(), async (req, res) => {
         const bookingId = req.body.bookingId;
@@ -404,6 +403,9 @@ io.on('connection', (socket) => {
         try {
             const oldData = await client.get(`transports`)
             let newData = oldData ? JSON.parse(oldData) : [];
+            if (newData.some(transport => transport.vehicleNumber === data.vehicleNumber)) {
+                return res.json({ status: 400, message: 'Vehicle number must be unique' });
+            }
             newData = [data, ...newData];
             client.set(`transports`, JSON.stringify(newData)).then(() => {
                 res.json({ status: 200, message: 'Data saved successfully!' });
@@ -424,6 +426,26 @@ io.on('connection', (socket) => {
         } catch (error) {
             console.log(error);
         }
+    });
+
+    // api endpoints to update transport data
+    app.post('/api/update_transport/', upload.none(), async (req, res) => {
+        const data = req.body;
+        client.get(`transports`).then(async (oldData) => {
+            let newData = oldData ? JSON.parse(oldData) : [];
+            const transportToUpdateIndex = newData.findIndex(transport => transport.vehicleNumber === data.vehicleNumber);
+            if (transportToUpdateIndex !== -1) {
+                newData[transportToUpdateIndex] = data;
+                client.set(`transports`, JSON.stringify(newData)).then(() => {
+                    res.json({ status: 200, message: 'Data updated successfully!' });
+                }).catch(err => {
+                    console.error(err);
+                    res.json({ status: 500, message: 'Error updating data' });
+                });
+            } else {
+                res.json({ status: 404, message: 'Transport not found' });
+            }
+        });
     });
 
     // api endpoints to delete transport data
@@ -573,29 +595,6 @@ io.on('connection', (socket) => {
         });
     });
 
-    // api endpoints to delete hotel data
-    //  app.delete('/api/delete_hotel/:title', async (req, res) => {
-    //     const title = req.params.title;
-    //     const oldData = await client.get(`hotels`);
-    //     let newData = [];
-    //     if (oldData) {
-    //         newData = JSON.parse(oldData);
-    //     }
-    //     const hotelToDelete = newData.find(hotel => hotel.title === title);
-    //     if (hotelToDelete.title) {
-    //         fs.unlinkSync(hotelToDelete.src);
-    //         newData = newData.filter(hotel => hotel.title !== title);
-    //         client.set(`hotels`, JSON.stringify(newData)).then(() => {
-    //             res.json({ message: 'Data deleted successfully!' });
-    //         }).catch(err => {
-    //             console.error(err);
-    //             res.status(500).json({ message: 'Error deleting data' });
-    //         });
-    //     } else {
-    //         res.status(404).json({ message: 'Place not found' });
-    //     }
-    // });
-
     // api endpoints to create a new room
     app.post('/api/create_room', upload.single('src'), async (req, res) => {
         const data = req.body;
@@ -616,27 +615,51 @@ io.on('connection', (socket) => {
 
     // api endpoints to update a room
     app.post('/api/update_room', upload.single('src'), async (req, res) => {
-        const hotelId = req.query.hotelId;
-        const data = req.body;
-        client.get(`hotels`).then(async (oldData) => {
+        try {
+            const { hotelId, id, title, ...restData } = req.body;
+            const oldData = await client.get('hotels');
             let newData = oldData ? JSON.parse(oldData) : [];
-            const hotelIndex = newData.findIndex(hotel => hotel.id === hotelId);
-            const roomIndex = newData[hotelIndex].rooms.findIndex(room => room.id === data.id);
-            if (hotelIndex !== -1 && roomIndex !== -1) {
-                if (req.file) {
-                    (newData[hotelIndex].rooms[roomIndex] && fs.existsSync(newData[hotelIndex].rooms[roomIndex].src)) && fs.unlinkSync(newData[hotelIndex].rooms[roomIndex].src);
-                    data.src = `uploads/rooms/${data.title.replace(/\s+/g, '_')}.jpg`
-                    fs.renameSync(req.file.path, data.src);
-                }
-                newData[hotelIndex].rooms[roomIndex] = { ...newData[hotelIndex].rooms[roomIndex], ...data };
-                client.set(`hotels`, JSON.stringify(newData)).then(() => {
-                    res.json({ status: 200, message: 'Data saved successfully!' });
-                }).catch(err => {
-                    console.error(err);
-                    res.json({ status: 500, message: 'Error saving data' });
-                });
+
+            const hotelIndex = newData.findIndex(hotel => parseInt(hotel.id) === parseInt(hotelId));
+            if (hotelIndex === -1) {
+                return res.json({ status: 404, message: 'Hotel not found' });
             }
-        })
+
+            const roomIndex = newData[hotelIndex].rooms.findIndex(room => {
+                return parseInt(room.id) === parseInt(id);
+            });
+            if (roomIndex === -1) {
+                return res.json({ status: 404, message: 'Room not found' });
+            }
+
+            // If a new image is uploaded, handle file operations
+            if (req.file) {
+                const currentRoom = newData[hotelIndex].rooms[roomIndex];
+                const oldFilePath = currentRoom.src;
+
+                // Remove old image if it exists
+                if (oldFilePath && fs.existsSync(oldFilePath)) {
+                    fs.unlinkSync(oldFilePath);
+                }
+
+                const newFileName = `${title.replace(/\s+/g, '_')}.jpg`;
+                const newFilePath = path.join('uploads/rooms', newFileName);
+                fs.renameSync(req.file.path, newFilePath);
+
+                restData.src = newFilePath; // Update data with the new file path
+            }
+
+            // Update the room data
+            newData[hotelIndex].rooms[roomIndex] = { ...newData[hotelIndex].rooms[roomIndex], ...restData };
+
+            // Save the updated hotel data back to the Redis cache
+            await client.set('hotels', JSON.stringify(newData));
+            return res.json({ status: 200, message: 'Data updated successfully!' });
+
+        } catch (err) {
+            console.error(err);
+            return res.json({ status: 500, message: 'Error saving data' });
+        }
     });
 
     // api endpoints to delete a room

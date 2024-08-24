@@ -1,5 +1,5 @@
 # TripBlaze (Tour Planning Website)
-
+# 1st milestone
 1. Homepage (Welcome Message, About Us, Why choose us, Contact)
 2. Tours (Places and Hotels)
 3. Packages (Family/Couple/Solo/Group)
@@ -17,14 +17,19 @@
 14. after booking admin will put the necessary data and confirm them.
 15. after confirmation of booking, review form will be appear
 
+# 2nd milestone
+1. Review and Contact Us options will be in the Footer section (done)
+2. Hotel Manager Sign up/Sign in will NOT be in footer (done)
+3. Add filters to hotel (Example: If extra adult/children will be staying? etc.) (done)
+4. Add people count before booking on tours,packages and transport. (how many guest?) (done)
+5. Transport Manager Profile (Will handle transport add/edit/delete)
+6. Text and Pictures should be aligned
 
+# requirements
 Reference Website:
 https://nijhoom.com/
 https://gozayaan.com/ 
 
-### emails
+credentials:
 email: tripblaze71@gmail.com
 password: TripBlazeFinalProject@Varsity71
-
-
-<!-- hotel manager and user credential are different -->

@@ -105,6 +105,10 @@ function Transportation() {
 const Transport = ({ transport, searchForm }) => {
   transport.bookingType = "transport"
   const { handleBooking } = useAuth();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [status, setStatus] = useState(false)
+  const [info, setInfo] = useState('')
+
   return (
     <div className="max-w-xl mx-auto bg-white border rounded-lg shadow-md p-4 flex flex-col md:flex-row md:items-center justify-evenly md:justify-between mb-4">
       <div>
@@ -161,13 +165,26 @@ const Transport = ({ transport, searchForm }) => {
 
       <div className="text-right flex md:flex-col flex-row justify-between items-center">
         <p className="text-lg font-bold text-yellow-600">{transport.returnTicket ? parseInt(transport.returnTicket.price) + parseInt(transport.journeyTicket.price) : transport.journeyTicket.price} USD</p>
-        <button className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600" onClick={() => {
-          handleBooking(transport)
-          searchForm.current.reset();
-        }}>
+        <button className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600" onClick={() => setModalOpen(true)}>
           Book
         </button>
       </div>
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={'Confirm Transport Booking'}>
+        <form className="flex flex-col gap-2" onSubmit={(e) => {
+          e.preventDefault();
+          transport.person = e.target.person.value;
+          transport.journeyTicket.price = transport.journeyTicket.price * e.target.person.value;
+          if (transport.returnTicket) transport.returnTicket.price = transport.returnTicket.price * e.target.person.value;
+          handleBooking(transport).then(() => {
+            searchForm.current.reset();
+            setModalOpen(false);
+          })
+
+        }}>
+          <input type="number" className="p-3 border" placeholder='People Count' name='person' defaultValue={1} min={1}/>
+          <button type='submit' className='bg-green-500 text-white p-2'>Confirm</button>
+        </form>
+      </Modal>
     </div>
   )
 }

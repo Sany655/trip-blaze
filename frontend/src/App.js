@@ -18,24 +18,25 @@ import MyBookings from './pages/MyBookings.tsx';
 import axios from 'axios';
 import useAuth from './hooks/useAuth.js';
 import ManageTour from './pages/admin/ManageTour.tsx';
-import ManageHotel from './pages/manager/ManageHotel.tsx';
-import ManageTransport from './pages/admin/ManageTransport.tsx';
+import ManageHotel from './pages/hotel-manager/ManageHotel.tsx';
+import ManageTransport from './pages/transport-manager/ManageTransport.tsx';
 import ManageBlog from './pages/admin/ManageBlog.tsx';
 import ManagePackage from './pages/admin/ManagePackage.tsx';
 import ManageBooking from './pages/admin/ManageBooking.tsx';
 import ChatBox from './pages/ChatBox.tsx';
-import ManageMessages from './pages/manager/ManageMessages.tsx';
-import ManageChatbox from './pages/manager/ManageChatbox.tsx';
+import ManageMessages from './pages/hotel-manager/ManageMessages.tsx';
+import ManageChatbox from './pages/hotel-manager/ManageChatbox.tsx';
 import { useEffect } from 'react';
-import ManagerSignin from './pages/manager/ManagerSignin.tsx';
-import ManagerSignup from './pages/manager/ManagerSignup.tsx';
+import ManagerSignin from './pages/hotel-manager/ManagerSignin.tsx';
+import ManagerSignup from './pages/hotel-manager/ManagerSignup.tsx';
 import Tour from './pages/Tour.tsx';
 import Hotel from './pages/Hotel.tsx';
-import ManagerBooking from './pages/manager/ManagerBooking.tsx';
+import ManagerBooking from './pages/hotel-manager/ManagerBooking.tsx';
 import Package from './pages/Package.tsx';
+import TransportSignin from './pages/transport-manager/TransportSignin.tsx';
 
 function App() {
-  axios.defaults.baseURL = process.env.REACT_APP_server_path+'api/';
+  axios.defaults.baseURL = process.env.REACT_APP_server_path + 'api/';
   const { user, socket } = useAuth();
 
   useEffect(() => {
@@ -53,7 +54,7 @@ function App() {
         <Route path='/package' element={<Package />} />
         <Route path='/transports' element={<Transportation />} />
         <Route path='/hotels' element={<Hotels />} />
-        <Route path='/hotel' element={<Hotel />} />
+        <Route path='/hotel/:id' element={<Hotel />} />
         <Route path='/blogs' element={<Blog />} />
         <Route path='/blog/:title' element={<Post />} />
         <Route path='/reviews' element={<Reviews />} />
@@ -69,19 +70,21 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/hotel-signin" element={<ManagerSignin />} />
           <Route path="/hotel-signup" element={<ManagerSignup />} />
+          <Route path="/transport-signin" element={<TransportSignin />} />
         </Route>
         <Route path='admin' element={(!user && user?.role != 'admin') ? <Navigate to="/" replace /> : <Outlet />}>
           <Route path='tours' element={<ManageTour />} />
-          <Route path='transports' element={<ManageTransport />} />
           <Route path='blogs' element={<ManageBlog />} />
           <Route path='packages' element={<ManagePackage />} />
-          <Route path='bookings' element={<ManageBooking />} />
         </Route>
-        <Route path='manager' element={(!user && user?.role != 'manager') ? <Navigate to="/" replace /> : <Outlet />}>
+        <Route path='hotel-manager' element={(!user && user?.role != 'hotel-manager') ? <Navigate to="/" replace /> : <Outlet />}>
           <Route path='hotel' element={<ManageHotel />} />
           <Route path='bookings' element={<ManagerBooking />} />
           <Route path='messages' element={<ManageMessages />} />
           <Route path='messages/:userId' element={<ManageChatbox />} />
+        </Route>
+        <Route path='transport-manager' element={(!user && user?.role != 'transport-manager') ? <Navigate to="/" replace /> : <Outlet />}>
+          <Route path='transports' element={<ManageTransport />} />
         </Route>
       </Routes>
       <Footer />

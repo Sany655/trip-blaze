@@ -50,7 +50,7 @@ function Tour() {
                             ref={bookingFormRef}
                         >
                             <input required type="date" name="date" id="date" className='border border-1 p-2 me-2' />
-                            <input required type="number" name="person" id="person" placeholder={`person per/${price}`} className='border border-1 p-2 me-2' />
+                            <input required type="number" name="person" id="person" placeholder={`person`} className='border border-1 p-2 me-2' defaultValue={1} min={1} max={50}/>
                             <button className="bg-green-500 px-4 py-2 text-white">Book</button>
                         </form>
                     </Modal>
