@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react';
 import Modal from '../../components/UI/Modal.tsx';
+import { useNavigate } from 'react-router-dom';
 
 function ManagePackage() {
     const packageForm = useRef()
@@ -22,7 +23,8 @@ function ManagePackage() {
             } else {
                 setInfo('Failed to set package');
             }
-        }).catch(error => setInfo(error)).finally(() => setStatus(false));
+        }).catch(error => setInfo(error))
+            .finally(() => setStatus(false));
     }
 
     const getPackages = async () => {
@@ -74,10 +76,11 @@ function ManagePackage() {
 }
 
 const PackageCard = ({ title, price, days, location, src, getPackages, type, description }) => {
-    const pakage = { title, price, days, location, src, getPackages, type, description };
+    const pakage = { title, price, days, location, src, type, description };
     const [packageEditModal, setPackageEditModal] = useState(false)
     const [status, setStatus] = useState(false)
     const [info, setInfo] = useState('')
+    const navigate = useNavigate();
 
     const handleDeletePackage = async () => {
         if (window.confirm(`Are you sure you want to delete ${title}?`)) {
@@ -105,11 +108,16 @@ const PackageCard = ({ title, price, days, location, src, getPackages, type, des
                 }
             }).finally(() => setStatus(false));
     }
+
+    function gotoPage() {
+        navigate('/package', { state: pakage });
+    }
+
     return (
         <div className="bg-white rounded-lg shadow-md p-6 m-4 flex flex-col justify-between">
             <img src={process.env.REACT_APP_server_path + src} alt={title} className="w-full rounded-lg mb-4" />
             <div>
-                <h2 className="text-2xl font-bold mb-4">{title}</h2>
+                <h2 className="text-2xl font-bold mb-4 cursor-pointer hover:text-blue-400" onClick={gotoPage}>{title}</h2>
                 <p className="mb-4"><span className='text-green-600'>{type}</span> Package</p>
                 <div className="flex justify-between items-center mb-2">
                     <span className="text-gray-500">{days} DAY &nbsp;</span>
@@ -117,7 +125,7 @@ const PackageCard = ({ title, price, days, location, src, getPackages, type, des
                 </div>
                 <p className="text-green-500 font-bold mb-2">{location}</p>
                 <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded me-2" onClick={() => setPackageEditModal(true)}>Edit</button>
-                <EditModal pakage={pakage} handleUpdatePackage={handleUpdatePackage} packageEditModal={packageEditModal} setPackageEditModal={setPackageEditModal} status={status} info={info}/>
+                <EditModal pakage={pakage} handleUpdatePackage={handleUpdatePackage} packageEditModal={packageEditModal} setPackageEditModal={setPackageEditModal} status={status} info={info} />
                 <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={handleDeletePackage}>Delete</button>
             </div>
         </div>
@@ -131,7 +139,6 @@ const EditModal = ({ pakage, handleUpdatePackage, packageEditModal, setPackageEd
             <form className={`flex flex-col gap-2`} onSubmit={handleUpdatePackage} method='post' encType='multipart/form-data'>
                 <input required type="text" className="p-4 my-2 border" placeholder='Title' name='title' defaultValue={title} />
                 <select name="type" id="type" className="p-4 my-2 border" required defaultValue={type}>
-                    <option value="">Chose package type</option>
                     <option value="Solo">Solo</option>
                     <option value="Family">Family</option>
                     <option value="Group">Group</option>

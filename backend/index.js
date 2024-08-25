@@ -197,7 +197,7 @@ io.on('connection', (socket) => {
         let bookings = await client.get('bookings');
         if (bookings) {
             bookings = JSON.parse(bookings);
-            res.json(bookings);
+            res.json(bookings.filter(booking => (booking.bookingType === 'tour' && booking.bookingType === 'package')));
         };
     })
 
@@ -207,6 +207,15 @@ io.on('connection', (socket) => {
         let bookings = await client.get('bookings');
         if (bookings) {
             const allbookings = JSON.parse(bookings).filter(booking => booking.hotelId === hotelId);
+            res.json(allbookings);
+        };
+    })
+
+    // api endpoints to get transport bookings
+    app.get('/api/get_transport_bookings', async (req, res) => {
+        let bookings = await client.get('bookings');
+        if (bookings) {
+            const allbookings = JSON.parse(bookings).filter(booking => booking.bookingType === "transport");
             res.json(allbookings);
         };
     })

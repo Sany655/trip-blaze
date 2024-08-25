@@ -22,7 +22,7 @@
 2. Hotel Manager Sign up/Sign in will NOT be in footer (done)
 3. Add filters to hotel (Example: If extra adult/children will be staying? etc.) (done)
 4. Add people count before booking on tours,packages and transport. (how many guest?) (done)
-5. Transport Manager Profile (Will handle transport add/edit/delete)
+5. Transport Manager Profile (Will handle transport add/edit/delete) (done)
 6. Text and Pictures should be aligned
 
 # requirements

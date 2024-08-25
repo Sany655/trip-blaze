@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import useAuth from '../../hooks/useAuth';
+import Loading from '../../components/UI/Loading.tsx';
 
 const HotelCard = ({ booking, confirmBooking }) => {
     const { bookingType, hotelId, roomId, date, price, title, size, id, status } = booking;
@@ -42,12 +43,14 @@ const HotelCard = ({ booking, confirmBooking }) => {
 function ManagerBooking() {
     const [allBookings, setAllBookings] = useState([])
     const { user } = useAuth();
+    const [loading, setLoading] = useState(true)
 
     const getHotelBookings = () => {
         // Fetch all bookings from the backend API
         axios.get('/get_hotel_bookings?hotelId=' + user.id).then(response => {
             setAllBookings(response.data)
         }).catch(er => console.log(er.message))
+            .finally(() => setLoading(false))
     }
 
     useEffect(() => {
@@ -69,6 +72,8 @@ function ManagerBooking() {
         // show all bookings in cards
         <div className="container mx-auto">
             <h1 className="text-3xl font-bold my-8">Manage Bookings</h1>
+            {loading && <Loading />}
+            {!loading && allBookings.length === 0 && <div className='flex items-center justify-center h-80'><p className='text-center'>No Bookings Found</p></div>}
             <div className=' grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
                 {allBookings.map((booking, index) => {
                     return <HotelCard booking={booking} key={index} confirmBooking={confirmBooking} />

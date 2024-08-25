@@ -16,7 +16,7 @@ function Tour() {
             <div className="grid grid-col-1 md:grid-cols-2 items-end">
                 <img src={process.env.REACT_APP_server_path + src} alt={title} className="rounded-lg mb-4" />
                 <div className='md:mx-5'>
-                    <h2 className="text-2xl font-bold mb-4 cursor-pointer">{title}</h2>
+                    <h2 className="text-2xl font-bold mb-4">{title}</h2>
                     <div className="flex justify-between items-center mb-2">
                         <span className="text-gray-500">{days} DAY &nbsp;</span>
                         <span className="text-gray-500">{price} USD PER PERSON</span>

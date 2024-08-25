@@ -1,8 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Loading from '../components/UI/Loading.tsx';
-import useAuth from '../hooks/useAuth.js';
-import Modal from '../components/UI/Modal.tsx';
 import { useNavigate } from 'react-router-dom';
 
 function Tours() {

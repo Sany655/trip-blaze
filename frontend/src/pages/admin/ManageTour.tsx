@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import Modal from '../../components/UI/Modal.tsx'
+import { useNavigate } from 'react-router-dom'
 
 function ManageTour() {
     const tourForm = useRef()
@@ -8,7 +9,6 @@ function ManageTour() {
     const [places, setPlaces] = useState([])
     const [status, setStatus] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
-    const [isTourOpen, setIsTourOpen] = useState(false)
 
     const handleSubmit = async (e) => {
         setInfo('')
@@ -72,6 +72,7 @@ const TourCard = ({ title, price, days, location, src, getPlaces, description },
     const [placeEditModal, setPlaceEditModal] = useState(false)
     const [status, setStatus] = useState(false)
     const [info, setInfo] = useState('')
+    const navigate = useNavigate()
     const handleDeleteTour = async () => {
         if (window.confirm(`Are you sure you want to delete ${title}?`)) {
             await axios.delete(`/delete_place/${title}`).then(response => {
@@ -97,11 +98,16 @@ const TourCard = ({ title, price, days, location, src, getPlaces, description },
                 }
             }).finally(() => setStatus(false));
     }
+
+    function gotoPage() {
+        navigate('/tour', { state: place });
+    }
+
     return (
         <div className="bg-white rounded-lg shadow-md p-6 m-4 flex flex-col justify-between" key={index}>
             <img src={process.env.REACT_APP_server_path + src} alt={title} className="w-full rounded-lg mb-4" />
             <div>
-                <h2 className="text-2xl font-bold mb-4">{title}</h2>
+                <h2 className="text-2xl font-bold mb-4 cursor-pointer hover:text-blue-400" onClick={gotoPage}>{title}</h2>
                 {/* <p className="text-gray-700 mb-4">{description}</p> */}
                 <div className="flex justify-between items-center mb-2">
                     <span className="text-gray-500">{days} DAY &nbsp;</span>

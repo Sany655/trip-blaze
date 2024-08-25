@@ -121,18 +121,25 @@ const ProfileDropdown: React.FC = () => {
                                         <i className='me-3 fa fa-bus'></i>
                                         Manage Transportation
                                     </Link>
+                                    <Link
+                                        to="transport-manager/bookings"
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                                        role="menuitem"
+                                    >
+                                        <i className='me-3 fa fa-calendar-check'></i>
+                                        Manage Bookings
+                                    </Link>
                                 </>
                             )
                         }
-                        <a
-                            href="#"
-                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                        <span
+                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center cursor-pointer"
                             role="menuitem"
                             onClick={handleLogout}
                         >
                             <i className="me-3 fa-solid fa-right-from-bracket"></i>
                             Sign Out
-                        </a>
+                        </span>
                     </div>
                 </div>
             )}

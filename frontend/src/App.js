@@ -34,6 +34,7 @@ import Hotel from './pages/Hotel.tsx';
 import ManagerBooking from './pages/hotel-manager/ManagerBooking.tsx';
 import Package from './pages/Package.tsx';
 import TransportSignin from './pages/transport-manager/TransportSignin.tsx';
+import TransportBooking from './pages/transport-manager/TransportBooking.tsx';
 
 function App() {
   axios.defaults.baseURL = process.env.REACT_APP_server_path + 'api/';
@@ -76,6 +77,7 @@ function App() {
           <Route path='tours' element={<ManageTour />} />
           <Route path='blogs' element={<ManageBlog />} />
           <Route path='packages' element={<ManagePackage />} />
+          <Route path='bookings' element={<ManageBooking />} />
         </Route>
         <Route path='hotel-manager' element={(!user && user?.role != 'hotel-manager') ? <Navigate to="/" replace /> : <Outlet />}>
           <Route path='hotel' element={<ManageHotel />} />
@@ -85,6 +87,7 @@ function App() {
         </Route>
         <Route path='transport-manager' element={(!user && user?.role != 'transport-manager') ? <Navigate to="/" replace /> : <Outlet />}>
           <Route path='transports' element={<ManageTransport />} />
+          <Route path='bookings' element={<TransportBooking />} />
         </Route>
       </Routes>
       <Footer />
