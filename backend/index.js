@@ -305,13 +305,13 @@ io.on('connection', (socket) => {
     // api endpoints to signin
     app.post('/api/signin', upload.none(), async (req, res) => {
         try {
-            const { user, password, role } = req.body;
+            const { user, password } = req.body;
             const users = await client.get('users');
             if (!users) {
                 return res.json({ status: 401, message: 'Users not found' });
             }
-            const userObj = JSON.parse(users).find(use => (use.email === user || use.username === user) && (use.role === role || use.role === 'admin'));
-            if (!userObj || userObj.password !== password || (userObj.role !== role && userObj.role !== 'admin')) {
+            const userObj = JSON.parse(users).find(use => (use.email === user || use.username === user));
+            if (!userObj || userObj.password !== password) {
                 return res.json({ status: 401, message: 'Invalid credentials' });
             }
             delete userObj.password;

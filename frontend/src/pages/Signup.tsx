@@ -5,8 +5,11 @@ import useAuth from '../hooks/useAuth';
 function Signup() {
     const { setUser } = useAuth();
     const signupForm = useRef();
+    const hotelForm = useRef();
     const [info, setInfo] = useState('');
     const [spin, setSpin] = useState(false);
+    const [step1, setStep1] = useState(false)
+    const [selectHotelRole, setSelectHotelRole] = useState(false)
 
     const handleSubmit = (event) => {
         setSpin(true);
@@ -27,71 +30,241 @@ function Signup() {
         }).finally(() => setSpin(false));;
     };
 
-    return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-8 rounded-md shadow-md md:w-2/3 lg:w-1/4 mx-auto my-28" ref={signupForm} encType='multipart/form-data'>
-            <h2 className="text-2xl font-bold text-center">Sign Up</h2>
-            <input name='role' defaultValue={'user'} className="hidden" type='password' />
-            <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                    Username
-                </label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
-                    required
-                />
-            </div>
-            <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    User Email
-                </label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
-                    required
-                />
-            </div>
-            <div>
-                <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-                    User Picture
-                </label>
-                <input
-                    type="file"
-                    id="image"
-                    name="image"
-                    className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+    const handleHotelManagerSihnup = (event) => {
+        event.preventDefault();
+        setSpin(true);
+        setInfo('');
+        const signupdata = new FormData(signupForm.current);
+        if (!step1) {
+            axios.post('/unique_manager', signupdata).then((res) => {
+                if (res.data.status !== 200) setInfo(res.data.message);
+                else setStep1(true)
+            }).finally(() => {
+                setSpin(false);
+            })
+        } else {
+            const hotelData = new FormData(hotelForm.current)
+            axios.post('/signup_manager', { username: signupForm.current.username.value, email: signupForm.current.email.value, password: signupForm.current.password.value, role: 'manager' }).then((response) => {
+                if (response.data.status === 200) {
+                    hotelData.set('id', response.data.user.id && parseInt(response.data.user.id))
+                    axios.post('/set_hotel', hotelData).then(hotelResponse => {
+                        if (hotelResponse.data.status === 200) {
+                            alert("Hotel Manager registered successfully.")
+                            localStorage.setItem('auth', btoa(JSON.stringify(response.data.user)));
+                            setUser(response.data.user);
+                        } else {
+                            setInfo('Failed to register hotel');
+                        }
+                    }).catch(error => setInfo(error.message)).finally(() => setSpin(false));
+                } else {
+                    setInfo(response.data.message);
+                }
+            }).finally(() => setSpin(false))
+        }
+    };
 
-                />
-            </div>
-            <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                    Password
-                </label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
-                    required
-                />
-            </div>
-            <button
-                type="submit"
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-                {spin ? (
-                    <svg className="animate-spin mx-auto h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                ) : 'Sign Up'}
-            </button>
-            <p className="text-center">{info}</p>
-        </form>
+    return (
+        <>
+            <form onSubmit={selectHotelRole ? handleHotelManagerSihnup : handleSubmit} className={`flex flex-col gap-4 p-8 rounded-md shadow-md md:w-2/3 lg:w-1/4 mx-auto my-28 ${step1 ? 'hidden' : "block"}`} ref={signupForm} encType='multipart/form-data'>
+                <h2 className="text-2xl font-bold text-center">Sign Up</h2>
+                <div>
+                    <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                        Username
+                    </label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                        required
+                    />
+                </div>
+                <div className="">
+                    <label htmlFor="role">Role</label>
+                    <select
+                        id="role"
+                        name="role"
+                        className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                        required
+                        onChange={e => setSelectHotelRole(e.currentTarget.value === 'hotel-manager')}>
+                        <option value="">Select Role</option>
+                        <option value="user">User</option>
+                        <option value="hotel-manager">Hotel Manager</option>
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                        User Email
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="image" className="block text-sm font-medium text-gray-700">
+                        User Picture
+                    </label>
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+
+                    />
+                </div>
+                <div>
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                        required
+                    />
+                </div>
+                <button
+                    type="submit"
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                    {spin ? (
+                        <svg className="animate-spin mx-auto h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    ) : 'Sign Up'}
+                </button>
+                <p className="text-center">{info}</p>
+            </form>
+            <form className={`flex flex-col gap-4 p-8 rounded-md shadow-md md:w-2/3 lg:w-1/3 mx-auto my-28 ${step1 ? 'block' : 'hidden'}`} onSubmit={handleSubmit} method='post' ref={hotelForm} encType='multipart/form-data'>
+                <h2 className="text-2xl font-bold text-center">Hotel Informations</h2>
+                <div className="grid grid-cols-1 gap-4 my-4">
+                    <div>
+                        <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                            Hotel Title
+                        </label>
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="src" className="block text-sm font-medium text-gray-700">
+                            Hotel Picture
+                        </label>
+                        <input
+                            type="file"
+                            id="src"
+                            accept='image/*'
+                            name="src"
+                            className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+                            Hotel Location
+                        </label>
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="facilities" className="block text-sm font-medium text-gray-700">
+                            Hotel Facilities (separated by commas)
+                        </label>
+                        <input
+                            type="text"
+                            id="facilities"
+                            name="facilities"
+                            className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="totalRooms" className="block text-sm font-medium text-gray-700">
+                            Number of Rooms
+                        </label>
+                        <input
+                            type="text"
+                            id="totalRooms"
+                            name="totalRooms"
+                            className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="floors" className="block text-sm font-medium text-gray-700">
+                            Number of Floors
+                        </label>
+                        <input
+                            type="text"
+                            id="floors"
+                            name="floors"
+                            className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="constructionYear" className="block text-sm font-medium text-gray-700">
+                            Year of Construction
+                        </label>
+                        <input
+                            type="text"
+                            name="constructionYear"
+                            className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="star" className="block text-sm font-medium text-gray-700">
+                            Hotel Star
+                        </label>
+                        <input
+                            type="text"
+                            id="star"
+                            name="star"
+                            className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                            required
+                        />
+                    </div>
+                    <div className='mb-4'>
+                        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                            Hotel Description
+                        </label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
+                            required></textarea>
+                    </div>
+                    <button
+                        type="submit"
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                        {spin ? (
+                            <svg className="animate-spin mx-auto h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        ) : 'Signup'}
+                    </button>
+                </div>
+                <p>{info}</p>
+            </form>
+        </>
     );
 }
 

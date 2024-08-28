@@ -27,7 +27,6 @@ function Footer() {
                     <Link to={'/reviews'}>Customer Reviews</Link>
                     <Link to={'/contact'}>Contact Us</Link>
                     <Link to={'/about'}>About Us</Link>
-                    <Link to={'/transport-signin'}>Transport Manager</Link>
                 </div>
             </div>
             <hr />
