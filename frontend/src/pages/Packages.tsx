@@ -44,7 +44,7 @@ const PackageCard = ({ pakage }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 m-4 flex flex-col justify-between">
-      <img src={process.env.REACT_APP_server_path + src} alt={title} className="w-full rounded-lg mb-4" />
+      <img src={process.env.REACT_APP_server_path + src} alt={title} className="w-full h-48 rounded-lg mb-4" />
       <div>
         <h2 className="text-2xl font-bold mb-4 cursor-pointer hover:text-blue-400" onClick={gotoPage}>{title}</h2>
         <div className="flex justify-between items-center mb-2">
