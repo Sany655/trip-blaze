@@ -25,6 +25,34 @@
 5. Transport Manager Profile (Will handle transport add/edit/delete) (done)
 6. Text and Pictures should be aligned
 
+# 3rd milestone
+Transport
+• Cancel Transport Booking Option
+• User Capacity Limitation
+
+Tours
+• Tours container... Alignment
+
+Hotels
+• Occupancy Doesn't Work
+
+Packages
+• Container Alignment
+
+Blogs
+• Picture alignment (Too Big)
+
+Admin
+• Admin Manage Booking Shows only on database not in the dashboard
+
+Hotel Manager
+• Can't Sign Up 2nd manager (runtime error)
+
+
+• Contact Us sending Doesn't Work
+• Add Multiple Transport Manager Sign Up
+• Add name in Dashboard
+
 # requirements
 Reference Website:
 https://nijhoom.com/

@@ -250,6 +250,19 @@ io.on('connection', (socket) => {
         });
     })
 
+    // api endpoints to cancel booking
+    app.delete('/api/cancel_booking', upload.none(), async (req, res) => {
+        const id = parseInt(req.query.id);
+        try {
+            const allbookings = JSON.parse(await client.get('bookings') || '[]');
+            const newBookings = allbookings.map(booking => booking.id === id ? { ...booking, status: 'cancelled' } : booking);
+            client.set('bookings', JSON.stringify(newBookings));
+            res.json({ status: 200, message: "Booking cancelled successfully!" });
+        } catch (error) {
+            res.json({ status: 500, message: 'Error cancelling booking', error: error.message });
+        }
+    })
+
     const checkUniqueUser = async (req, res, next) => {
         try {
             const users = await client.get('users');
@@ -566,7 +579,7 @@ io.on('connection', (socket) => {
 
     // api endpoints to get hotel data by id
     app.get('/api/get_hotel', async (req, res) => {
-        const id = req.query.id;
+        const id = parseInt(req.query.id);
         const data = await client.get('hotels');
         const hotel = JSON.parse(data).find(hotel => hotel.id === id);
         if (hotel) {
@@ -582,35 +595,40 @@ io.on('connection', (socket) => {
     // api endpoints to set hotel data
     app.post('/api/set_hotel', upload.single("src"), async (req, res) => {
         const data = req.body;
-        data.rooms = []
-        const oldData = await client.get(`hotels`);
-        let newData = oldData ? JSON.parse(oldData) : [];
-        const index = newData.findIndex(hotel => hotel.id === data.id);
-        if (req.file) {
-            (newData[index] && fs.existsSync(newData[index].src)) && fs.unlinkSync(newData[index].src);
-            data.src = `uploads/hotels/${req.body.title.replace(/\s+/g, '_')}_${new Date().toLocaleString().replace(/[/:.]/g, '-')}.png`;
-            fs.renameSync(req.file.path, data.src);
-        }
-        if (index !== -1) {
-            newData[index] = { ...newData[index], ...data };
-        } else {
-            newData.unshift(data);
-        }
-        client.set(`hotels`, JSON.stringify(newData)).then(() => {
+        try {
+            const dataFromBase = await client.get(`hotels`);
+            const oldData = JSON.parse(dataFromBase || '[]');
+            data.id = parseInt(data.id);
+            data.src = '';
+            const gotData = oldData.find(hotel => hotel.id === data.id);
+            if (req.file) {
+                fs.existsSync(gotData?.src) && fs.unlinkSync(gotData?.src);
+                data.src = `uploads/hotels/${data.title.replace(/\s+/g, '_')}_${new Date().toLocaleString().replace(/[/:.]/g, '-')}.png`;
+                fs.renameSync(req.file.path, data.src);
+            }
+            if (gotData) {
+                data.src = gotData.src;
+                data.rooms = gotData.rooms;
+                oldData.splice(oldData.indexOf(gotData), 1, data);
+            } else {
+                data.rooms = [];
+                oldData.unshift(data);
+            }
+            await client.set(`hotels`, JSON.stringify(oldData));
             res.json({ status: 200, message: 'Data saved successfully!' });
-        }).catch(err => {
-            console.error(err);
-            res.json({ status: 500, message: 'Error saving data' });
-        });
+        } catch (error) {
+            res.json({ status: 500, message: error.message });
+        }
     });
 
     // api endpoints to create a new room
     app.post('/api/create_room', upload.single('src'), async (req, res) => {
         const data = req.body;
+        data.hotel_id = parseInt(data.hotel_id);
         const oldData = await client.get(`hotels`);
         let newData = oldData ? JSON.parse(oldData) : [];
-        const index = newData.findIndex(hotel => hotel.id === data.id);
-        data.src = `uploads/rooms/${data.title.replace(/\s+/g, '_')}.jpg`
+        const index = newData.findIndex(hotel => hotel.id === data.hotel_id);
+        data.src = `uploads/rooms/${data.title.replace(/\s+/g, '_')}_${new Date().toLocaleString().replace(/[/:.]/g, '-')}.jpg`
         fs.renameSync(req.file.path, data.src)
         data.id = newData[index].rooms.length > 0 ? newData[index].rooms[0].id + 1 : 1;
         newData[index].rooms = [data, ...newData[index].rooms]
@@ -625,17 +643,17 @@ io.on('connection', (socket) => {
     // api endpoints to update a room
     app.post('/api/update_room', upload.single('src'), async (req, res) => {
         try {
-            const { hotelId, id, title, ...restData } = req.body;
+            const { hotelId, id, ...restData } = req.body;
             const oldData = await client.get('hotels');
             let newData = oldData ? JSON.parse(oldData) : [];
 
-            const hotelIndex = newData.findIndex(hotel => parseInt(hotel.id) === parseInt(hotelId));
+            const hotelIndex = newData.findIndex(hotel => hotel.id === parseInt(hotelId));
             if (hotelIndex === -1) {
                 return res.json({ status: 404, message: 'Hotel not found' });
             }
 
             const roomIndex = newData[hotelIndex].rooms.findIndex(room => {
-                return parseInt(room.id) === parseInt(id);
+                return room.id === parseInt(id);
             });
             if (roomIndex === -1) {
                 return res.json({ status: 404, message: 'Room not found' });
@@ -651,11 +669,9 @@ io.on('connection', (socket) => {
                     fs.unlinkSync(oldFilePath);
                 }
 
-                const newFileName = `${title.replace(/\s+/g, '_')}.jpg`;
-                const newFilePath = path.join('uploads/rooms', newFileName);
-                fs.renameSync(req.file.path, newFilePath);
-
-                restData.src = newFilePath; // Update data with the new file path
+                const newFileName = `${restData.title.replace(/\s+/g, '_')}.jpg`;
+                fs.renameSync(req.file.path, 'uploads/rooms/' + newFileName);
+                restData.src = 'uploads/rooms/' + newFileName;
             }
 
             // Update the room data
@@ -673,7 +689,7 @@ io.on('connection', (socket) => {
 
     // api endpoints to delete a room
     app.get('/api/delete_room/', async (req, res) => {
-        const hotelId = req.query.hotelId;
+        const hotelId = parseInt(req.query.hotelId);
         const roomId = req.query.roomId;
         client.get(`hotels`).then(async (oldData) => {
             let newData = oldData ? JSON.parse(oldData) : [];

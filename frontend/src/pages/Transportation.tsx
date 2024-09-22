@@ -113,9 +113,10 @@ const Transport = ({ transport, searchForm }) => {
     <div className="max-w-xl mx-auto bg-white border rounded-lg shadow-md p-4 flex flex-col md:flex-row md:items-center justify-evenly md:justify-between mb-4">
       <div>
         <div className="md:flex md:items-center">
-          <div className='flex flex-row md:flex-col items-center md:items-stretch justify-between'>
+          <div className='flex flex-row items-center justify-between gap-2'>
             <h3 className="text-lg font-bold text-green-800">{transport.journeyTicket.provider}</h3>
             <p className="text-sm text-green-500">{transport.journeyTicket.vehicleNumber}</p>
+            <p className="text-sm text-green-500">capacity: {transport.journeyTicket.capacity}</p>
           </div>
         </div>
 
@@ -142,6 +143,7 @@ const Transport = ({ transport, searchForm }) => {
               <div className='flex flex-row md:flex-col items-center md:items-stretch justify-between'>
                 <h3 className="text-lg font-bold text-green-800">{transport.returnTicket.provider}</h3>
                 <p className="text-sm text-green-500">{transport.returnTicket.vehicleNumber}</p>
+                <p className="text-sm text-green-500">capacity: {transport.returnTicket.capacity}</p>
               </div>
             </div>
 
@@ -179,9 +181,8 @@ const Transport = ({ transport, searchForm }) => {
             searchForm.current.reset();
             setModalOpen(false);
           })
-
         }}>
-          <input type="number" className="p-3 border" placeholder='People Count' name='person' defaultValue={1} min={1}/>
+          <input type="number" className="p-3 border" placeholder='People Count' name='person' defaultValue={1} min={1} max={5} />
           <button type='submit' className='bg-green-500 text-white p-2'>Confirm</button>
         </form>
       </Modal>

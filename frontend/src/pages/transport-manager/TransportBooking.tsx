@@ -10,8 +10,8 @@ const TransportCard = ({ booking, confirmBooking }) => {
                 <h2 className="text-xl font-bold text-green-800">
                     {tripType} {bookingType}
                 </h2>
-                <span className={`px-3 py-1 rounded-full text-sm font-semibold flex items-center ${status === 'pending' ? 'bg-yellow-500 text-white' : 'bg-green-500 text-white'}`}>
-                    <i className={`fas ${status === 'pending' ? 'fa-hourglass-half' : 'fa-check-circle'} mr-1`}></i>
+                <span className={`px-3 py-1 rounded-full text-sm font-semibold flex items-center text-white ${status === 'pending' ? 'bg-yellow-500' : status === 'cancelled' ? 'bg-red-500' : 'bg-green-500'}`}>
+                    <i className={`fas ${status === 'pending' ? 'fa-hourglass-half' : status === 'cancelled' ? 'fa-trash' : 'fa-check-circle'} mr-1`}></i>
                     <span>{status}</span>
                 </span>
             </div>
@@ -82,8 +82,6 @@ function TransportBooking() {
         // Fetch all bookings from the backend API
         axios.get('/get_transport_bookings').then(response => {
             setAllBookings(response.data)
-            console.log(response.data);
-            
         }).catch(er => console.log(er.message))
             .finally(() => setLoading(false))
     }
@@ -110,7 +108,7 @@ function TransportBooking() {
             {loading && <Loading />}
             {!loading && allBookings.length === 0 && <div className='flex items-center justify-center h-80'><p className='text-center'>No Bookings Found</p></div>}
             <div className=' grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
-                {allBookings.map((booking, index) => <TransportCard booking={booking} key={index} confirmBooking={confirmBooking}/>)}
+                {allBookings.map((booking, index) => <TransportCard booking={booking} key={index} confirmBooking={confirmBooking} />)}
             </div>
         </div>
     )

@@ -38,13 +38,13 @@ const HotelCard = ({ id, title, location, src, description, rooms, floors, const
         setStatus(true)
         e.preventDefault()
         const formData = new FormData(hotelForm.current)
+        formData.set('id', user.id);
         axios.post('/set_hotel', formData).then(response => {
             if (response.data.status === 200) {
-                setInfo(response.data.message);
                 setHotelModal(false);
                 getHotel();
             } else {
-                setInfo('Failed to update hotel');
+                setInfo(response.data.message);
             }
         }).catch(error => setInfo(error)).finally(() => setStatus(false));
     }
@@ -53,10 +53,10 @@ const HotelCard = ({ id, title, location, src, description, rooms, floors, const
         setStatus(true)
         e.preventDefault();
         const data = new FormData(e.target);
+        data.set('hotel_id', id);
         axios.post('/create_room', data)
             .then(response => {
                 if (response.data.status === 200) {
-                    alert('Room created successfully');
                     e.target.reset();
                     setRoomModal(false);
                     getHotel()
@@ -84,10 +84,14 @@ const HotelCard = ({ id, title, location, src, description, rooms, floors, const
                         <small>Hotel Type: {star} star</small>
                     </div>
                     <p className="text-gray-700 mb-4">Description: {description}</p>
+                    <div className="my-3">
+                        <h2 className="text-xl font-bold">Admin Info</h2>
+                        <p>{user.username}</p>
+                        <p>{user.email}</p>
+                    </div>
                     <button className="bg-yellow-500 text-white p-2 mb-2 md:mb-0 md:me-2 rounded" onClick={() => setHotelModal(true)}>Edit Hotel Information</button>
                     <Modal title={"Update hotel information"} isOpen={hotelModal} onClose={() => setHotelModal(false)}>
                         <form className={`flex flex-col gap-3`} onSubmit={handleSubmit} method='post' ref={hotelForm} encType='multipart/form-data'>
-                            <input type="number" name='id' defaultValue={user.id} className='hidden'/>
                             <div>
                                 <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                                     Hotel Title
@@ -140,13 +144,13 @@ const HotelCard = ({ id, title, location, src, description, rooms, floors, const
                                 />
                             </div>
                             <div>
-                                <label htmlFor="rooms" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="totalRooms" className="block text-sm font-medium text-gray-700">
                                     Number of Rooms
                                 </label>
                                 <input
-                                    type="text"
-                                    id="rooms"
-                                    name="rooms"
+                                    type="number"
+                                    id="totalRooms"
+                                    name="totalRooms"
                                     className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-green-500"
                                     defaultValue={totalRooms}
                                     required
@@ -205,17 +209,16 @@ const HotelCard = ({ id, title, location, src, description, rooms, floors, const
                             <p>{info}</p>
                         </form>
                     </Modal>
-                    <button className="bg-green-500 p-2 rounded text-white" onClick={() => setRoomModal(true)}>Create Room</button>
+                    {title && <button className="bg-green-500 p-2 rounded text-white" onClick={() => setRoomModal(true)}>Create Room</button>}
                     <Modal title={"Create Room"} isOpen={roomModal} onClose={() => setRoomModal(false)}>
                         <form className={`flex flex-col gap-3`} onSubmit={handleRoomCreate} method='post' ref={hotelForm} encType='multipart/form-data'>
-                            <input type="number" name="id" defaultValue={id} className='hidden'/>
                             <input type="text" className="p-2 border rounded" name='title' placeholder='Title' required />
                             <input type="file" name="src" id="" required />
                             <textarea className="p-2 border rounded" name='occupancy' placeholder='Occupancy' required defaultValue={'Adult: , Child: ,  Maximum Number of Guests Allowed: '}></textarea>
                             <textarea className="p-2 border rounded" name='roomCharacteristics' placeholder='Room Characteristics' required></textarea>
                             <input type="text" className="p-2 border rounded" name='roomSize' placeholder='Room Size' required />
                             <textarea className="p-2 border rounded" name='facilities' placeholder='Facilities' required></textarea>
-                            <input type="text" className="p-2 border rounded" name='price' placeholder='Price' required />
+                            <input type="number" className="p-2 border rounded" name='price' placeholder='Price' required />
                             <button className="bg-green-500 px-8 py-2 focus:bg-green-700">{status ? 'Submitting...' : 'Submit'}</button>
                             <p>{info}</p>
                         </form>
@@ -242,7 +245,6 @@ const RoomCart = ({ id, title, src, occupancy, roomCharacteristics, roomSize, fa
         axios.post(`/update_room`, formData)
             .then(response => {
                 if (response.data.status === 200) {
-                    alert(response.data.message);
                     setRoomEditModal(false);
                     getHotel()
                 } else {

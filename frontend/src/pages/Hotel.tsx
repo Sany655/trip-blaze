@@ -8,8 +8,8 @@ import Filter from '../components/UI/Hotel/Filter.tsx';
 
 function Hotel() {
     const hotelId = useParams().id;
-    const [{ id, title, location, src, description, rooms, floors, constructionYear, star, facilities, totalRooms }, setHotel] = useState({})
-    const hotel = { id, title, location, src, description, rooms, floors, constructionYear, star, facilities, totalRooms };
+    const [hotel, setHotel] = useState({})
+    const { id, title, location, src, description, rooms, floors, constructionYear, star, facilities, totalRooms } = hotel;
     const [contactModal, setContactModal] = useState(false);
     const [filters, setFilters] = useState({});
     const { user } = useAuth();

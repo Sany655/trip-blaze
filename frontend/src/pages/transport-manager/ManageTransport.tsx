@@ -57,6 +57,7 @@ function ManageTransport() {
                 <input required type="text" className="md:w-1/3 p-4 my-2 border" placeholder='From' name='from' />
                 <input required type="text" className="md:w-1/3 p-4 my-2 border" placeholder='To' name='to' />
                 <input required type="number" className="md:w-1/3 p-4 my-2 border" placeholder='Price' name='price' />
+                <input required type="number" className="md:w-1/3 p-4 my-2 border" placeholder='Capacity' name='capacity' />
                 <input required type="text" className="md:w-1/3 p-4 my-2 border" placeholder='Vehicle Number' name='vehicleNumber' />
                 <button className="bg-green-500 px-8 py-2 focus:bg-green-700">{status ? 'Submitting...' : 'Submit'}</button>
                 <p>{info}</p>
@@ -70,7 +71,7 @@ function ManageTransport() {
     )
 }
 
-const TransportCard = ({ type, provider, departureTime, arrivalTime, from, to, price, vehicleNumber, getTransports }, index?) => {
+const TransportCard = ({ capacity, type, provider, departureTime, arrivalTime, from, to, price, vehicleNumber, getTransports }, index?) => {
     const [modal, setModal] = useState(false)
     const [status, setStatus] = useState(false)
     const [info, setInfo] = useState('')
@@ -126,6 +127,7 @@ const TransportCard = ({ type, provider, departureTime, arrivalTime, from, to, p
                 </div>
             </div>
             <p className="text-lg font-bold text-yellow-600">Price {price} USD</p>
+            <p className="text-lg font-bold text-yellow-600">Capecity: {capacity} person</p>
             <div>
                 <button className="mt-2 me-2 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 " onClick={() => setModal(true)}>
                     Edit
@@ -140,6 +142,7 @@ const TransportCard = ({ type, provider, departureTime, arrivalTime, from, to, p
                         <input required type="text" className="p-4 my-2 border" placeholder='From' name='from' defaultValue={from} />
                         <input required type="text" className="p-4 my-2 border" placeholder='To' name='to' defaultValue={to} />
                         <input required type="number" className="p-4 my-2 border" placeholder='Price' name='price' defaultValue={price} />
+                        <input required type="number" className="p-4 my-2 border" placeholder='Capacity' name='capacity' defaultValue={capacity} />
                         <input required type="text" className="p-4 my-2 border" placeholder='Vehicle Number' name='vehicleNumber' defaultValue={vehicleNumber} />
                         <button className="bg-green-500 px-8 py-2 focus:bg-green-700">{status ? 'Updating...' : 'Update'}</button>
                         <p>{info}</p>

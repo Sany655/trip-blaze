@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const Filter = ({ onFilterChange }) => {
     const [filters, setFilters] = useState({
-        occupancy: { adults: 1, children: 0 },
+        occupancy: { adult: 1, child: 0 },
         roomCharacteristics: [],
         facilities: [],
         roomSize: { min: '', max: '' },
@@ -46,8 +46,8 @@ const Filter = ({ onFilterChange }) => {
                             <label>{occu}</label>
                             <input
                                 type="number"
-                                min={occu === "Adult" ? 1 : 0}
-                                value={occu === "Adult" ? filters.occupancy.adults : filters.occupancy.children}
+                                min={occu.toLowerCase() === "adult" ? 1 : 0}
+                                value={occu.toLowerCase() === "adult" ? filters.occupancy.adult : filters.occupancy.child}
                                 onChange={(e) => handleInputChange('occupancy', occu.toLowerCase(), e.target.value)}
                                 className="border border-gray-300 rounded-md p-1 w-12"
                             />

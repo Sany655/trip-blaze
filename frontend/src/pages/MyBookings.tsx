@@ -4,6 +4,68 @@ import useAuth from '../hooks/useAuth'
 import Loading from '../components/UI/Loading.tsx';
 import Modal from '../components/UI/Modal.tsx';
 
+function MyBookings() {
+    const [bookings, setBookings] = useState([])
+    const { user } = useAuth()
+    const [loading, setLoading] = useState(true)
+
+    const fetchBookings = async () => {
+        const response = await axios.get('/get_bookings?username=' + user.username)
+        setBookings(response.data)
+    }
+
+    useEffect(() => {
+        fetchBookings().finally(() => setLoading(false))
+    }, [])
+
+    const cancelBooking = async (bookingId) => {
+        if (window.confirm('Are you sure you want to cancel this booking? its irreversible')) {
+            axios.delete('cancel_booking?id=' + bookingId).then(response => {
+                fetchBookings();
+                alert(response.data.message);
+            })
+        }
+    }
+
+    return (
+        <div className="container mx-auto px-4">
+            <h1 className="text-3xl font-bold text-center my-12 text-green-500">My Bookings</h1>
+            <hr className='bg-green-500 mb-8' />
+            {
+                !loading ? (bookings.length > 0 ? (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+                        {
+                            bookings.map((booking, index) => {
+                                switch (booking.bookingType) {
+                                    case "tour":
+                                        return <TourCard booking={booking} key={index} fetchBookings={fetchBookings} />
+                                    case "hotel":
+                                        return <HotelCard booking={booking} key={index} fetchBookings={fetchBookings} />
+                                    case "package":
+                                        return <PackageCard booking={booking} key={index} fetchBookings={fetchBookings} />
+                                    case "transport":
+                                        return <TransportCard booking={booking} key={index} cancelBooking={cancelBooking} />
+
+                                    default:
+                                        break;
+                                }
+                            })
+                        }
+                    </div>
+                ) : (
+                    <div className="w-full bg-white p-8 rounded-lg shadow-md flex flex-col items-center justify-center">
+                        <h2 className="text-2xl font-semibold text-green-800 mb-4">No bookings yet</h2>
+                        <p className="text-green-600 text-center mb-6">
+                            Start your travel planning for your next adventure today
+                        </p>
+                    </div>
+                )) : <Loading />
+            }
+        </div >
+    );
+}
+
+
 const TourCard = ({ booking, fetchBookings }) => {
     const { reviewed, bookingType, location, title, date, status, person, days, price } = booking;
     const [isModalOpen, setModalOpen] = useState(false);
@@ -295,16 +357,16 @@ const PackageCard = ({ booking, fetchBookings }) => {
     )
 }
 
-const TransportCard = ({ booking }) => {
-    const { bookingType, journeyTicket, status, tripType, user, returnTicket, person } = booking;
+const TransportCard = ({ booking, cancelBooking }) => {
+    const { id, bookingType, journeyTicket, status, tripType, user, returnTicket, person } = booking;
     return (
         <div className="bg-white rounded-lg shadow-lg p-6 capitalize">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold text-green-800">
                     {tripType} {bookingType} for {person} Person
                 </h2>
-                <span className={`px-3 py-1 rounded-full text-sm font-semibold flex items-center ${status === 'pending' ? 'bg-yellow-500 text-white' : 'bg-green-500 text-white'}`}>
-                    <i className={`fas ${status === 'pending' ? 'fa-hourglass-half' : 'fa-check-circle'} mr-1`}></i>
+                <span className={`px-3 py-1 rounded-full text-sm font-semibold flex items-center text-white ${status === 'pending' ? 'bg-yellow-500' : status === 'cancelled' ? 'bg-red-500' : 'bg-green-500'}`}>
+                    <i className={`fas ${status === 'pending' ? 'fa-hourglass-half' : status === 'cancelled' ? 'fa-trash' : 'fa-check-circle'} mr-1`}></i>
                     <span>{status}</span>
                 </span>
             </div>
@@ -355,61 +417,20 @@ const TransportCard = ({ booking }) => {
                     </div>
                 )}
             </div>
+
+            <div className="border-t border-gray-200 pt-4">
+                {
+                    status !== 'confirmed' && status !== 'cancelled' && (
+                        <button className="mt-4 w-full bg-red-500 text-white py-2 rounded-lg" onClick={() => cancelBooking(id)}>
+                            <i className="fas fa-right mr-2"></i> Cancel Booking
+                        </button>
+                    )
+                }
+            </div>
         </div>
 
     )
 }
 
-function MyBookings() {
-    const [bookings, setBookings] = useState([])
-    const { user } = useAuth()
-    const [loading, setLoading] = useState(true)
-
-    const fetchBookings = async () => {
-        const response = await axios.get('/get_bookings?username=' + user.username)
-        setBookings(response.data)
-    }
-
-    useEffect(() => {
-        fetchBookings().finally(() => setLoading(false))
-    }, [])
-
-    return (
-        <div className="container mx-auto px-4">
-            <h1 className="text-3xl font-bold text-center my-12 text-green-500">My Bookings</h1>
-            <hr className='bg-green-500 mb-8' />
-            {
-                !loading ? (bookings.length > 0 ? (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                        {
-                            bookings.map((booking, index) => {
-                                switch (booking.bookingType) {
-                                    case "tour":
-                                        return <TourCard booking={booking} key={index} fetchBookings={fetchBookings} />
-                                    case "hotel":
-                                        return <HotelCard booking={booking} key={index} fetchBookings={fetchBookings} />
-                                    case "package":
-                                        return <PackageCard booking={booking} key={index} fetchBookings={fetchBookings} />
-                                    case "transport":
-                                        return <TransportCard booking={booking} key={index} />
-
-                                    default:
-                                        break;
-                                }
-                            })
-                        }
-                    </div>
-                ) : (
-                    <div className="w-full bg-white p-8 rounded-lg shadow-md flex flex-col items-center justify-center">
-                        <h2 className="text-2xl font-semibold text-green-800 mb-4">No bookings yet</h2>
-                        <p className="text-green-600 text-center mb-6">
-                            Start your travel planning for your next adventure today
-                        </p>
-                    </div>
-                )) : <Loading />
-            }
-        </div >
-    );
-}
 
 export default MyBookings
