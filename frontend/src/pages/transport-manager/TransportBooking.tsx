@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Loading from '../../components/UI/Loading.tsx';
 
-const TransportCard = ({ booking, confirmBooking }) => {
+const TransportCard = ({ booking, confirmBooking, cancelBooking }) => {
     const { id, bookingType, journeyTicket, status, tripType, user, returnTicket } = booking;
     return (
         <div className="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
@@ -63,13 +63,20 @@ const TransportCard = ({ booking, confirmBooking }) => {
                 )}
             </div>
             {
-                status === 'pending' && (<div className="border-t border-gray-200 pt-4">
-                    <button className="mt-4 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300" onClick={() => confirmBooking(id)}>
-                        <i className={`fas ${status === 'pending' ? 'fa-hourglass-half' : 'fa-check-circle'} mr-1`}></i> Confirm Booking
-                    </button>
-                </div>)
+                status === 'pending' && (
+                    <>
+                        <div className="border-t border-gray-200 pt-4">
+                            <button className="mt-4 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300" onClick={() => confirmBooking(id)}>
+                                <i className={`fas ${status === 'pending' ? 'fa-hourglass-half' : 'fa-check-circle'} mr-1`}></i> Confirm Booking
+                            </button>
+                        </div>
+                        <button className="mt-4 w-full bg-red-500 text-white py-2 rounded-lg" onClick={() => cancelBooking(id)}>
+                            <i className="fas fa-right mr-2"></i> Cancel Booking
+                        </button>
+                    </>
+                )
             }
-        </div>
+        </div >
 
     )
 }
@@ -101,6 +108,15 @@ function TransportBooking() {
         }).catch(er => console.log(er.message))
     }
 
+    const cancelBooking = async (bookingId) => {
+        if (window.confirm('Are you sure you want to cancel this booking? its irreversible')) {
+            axios.delete('cancel_booking?id=' + bookingId).then(response => {
+                getAllBookings();
+                alert(response.data.message);
+            })
+        }
+    }
+
     return (
         // show all bookings in cards
         <div className="container mx-auto">
@@ -108,7 +124,7 @@ function TransportBooking() {
             {loading && <Loading />}
             {!loading && allBookings.length === 0 && <div className='flex items-center justify-center h-80'><p className='text-center'>No Bookings Found</p></div>}
             <div className=' grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
-                {allBookings.map((booking, index) => <TransportCard booking={booking} key={index} confirmBooking={confirmBooking} />)}
+                {allBookings.map((booking, index) => <TransportCard booking={booking} key={index} confirmBooking={confirmBooking} cancelBooking={cancelBooking} />)}
             </div>
         </div>
     )

@@ -40,7 +40,7 @@ function ContactUs() {
                     <input name='from_email' type="email" placeholder='Email Address' className='p-2 border border-grey-400 rounded' required />
                     <textarea name='message' placeholder='Write your message' className='p-2 border border-grey-400 rounded' required></textarea>
                     <button className="bg-green-500 font-bold text-black p-4">Submit</button>
-                    <small className='text-white'>{info}</small>
+                    <small className='text-green-500'>{info}</small>
                 </form>
             </div>
         </section>

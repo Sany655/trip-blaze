@@ -28,6 +28,14 @@ const ProfileDropdown: React.FC = () => {
                     onClick={() => setIsOpen(false)}
                 >
                     <div className="py-1" role="none">
+                        <p
+                            className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"
+                            role="menuitem"
+                        >
+                            <i className='me-3 fa fa-user'></i>
+                            {user.username}
+                        </p>
+                        <hr />
                         {
                             user.role === "user" ? (
                                 <>

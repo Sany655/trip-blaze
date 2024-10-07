@@ -385,7 +385,7 @@ const TransportCard = ({ booking, cancelBooking }) => {
                     </p>
                     <p className="text-md text-gray-500"><i className="fas fa-clock text-green-800 mr-1"></i> {journeyTicket.departureTime} - {journeyTicket.arrivalTime}</p>
                     <p className="text-md text-green-800">
-                        <i className="fas fa-bus mr-1"></i> {journeyTicket.provider}
+                        <i className="fas fa-arrow-right mr-1"></i> {journeyTicket.provider}
                     </p>
                     <p className="text-lg font-bold text-green-800 mt-2">
                         <i className="fas fa-dollar-sign mr-1"></i> {journeyTicket.price} USD
@@ -409,7 +409,7 @@ const TransportCard = ({ booking, cancelBooking }) => {
                             {returnTicket.departureTime} - {returnTicket.arrivalTime}
                         </p>
                         <p className="text-md text-green-800">
-                            <i className="fas fa-train mr-1"></i> {returnTicket.provider}
+                            <i className="fas fa-arrow-left mr-1"></i> {returnTicket.provider}
                         </p>
                         <p className="text-lg font-bold text-green-800 mt-2">
                             <i className="fas fa-dollar-sign mr-1"></i> {returnTicket.price} USD

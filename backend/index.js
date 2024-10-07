@@ -197,7 +197,7 @@ io.on('connection', (socket) => {
         let bookings = await client.get('bookings');
         if (bookings) {
             bookings = JSON.parse(bookings);
-            res.json(bookings.filter(booking => (booking.bookingType === 'tour' && booking.bookingType === 'package')));
+            res.json(bookings.filter(booking => (booking.bookingType === 'tour' || booking.bookingType === 'package')));
         };
     })
 
@@ -419,15 +419,17 @@ io.on('connection', (socket) => {
         }
     });
 
-    // api endpoints to set transposition data
+    // api endpoints to set transportation data
     app.post('/api/set_transport', upload.none(), async (req, res) => {
         const data = req.body;
+        data.transporter_id = parseInt(data.transporter_id);
         try {
             const oldData = await client.get(`transports`)
             let newData = oldData ? JSON.parse(oldData) : [];
-            if (newData.some(transport => transport.vehicleNumber === data.vehicleNumber)) {
-                return res.json({ status: 400, message: 'Vehicle number must be unique' });
-            }
+            // if (newData.some(transport => transport.vehicleNumber === data.vehicleNumber)) {
+            //     return res.json({ status: 400, message: 'Vehicle number must be unique' });
+            // }
+            data.id = oldData ? newData[0].id + 1 : 1;
             newData = [data, ...newData];
             client.set(`transports`, JSON.stringify(newData)).then(() => {
                 res.json({ status: 200, message: 'Data saved successfully!' });
@@ -443,8 +445,9 @@ io.on('connection', (socket) => {
     // api endpoints to get transposition data
     app.get('/api/get_transports', async (req, res) => {
         try {
+            const transporter_id = parseInt(req.query.transporter_id);
             const data = await client.get('transports');
-            res.json(data ? JSON.parse(data) : []);
+            res.json(data ? JSON.parse(data).filter(d => transporter_id ? d.transporter_id === transporter_id : true) : []);
         } catch (error) {
             console.log(error);
         }
@@ -453,11 +456,22 @@ io.on('connection', (socket) => {
     // api endpoints to update transport data
     app.post('/api/update_transport/', upload.none(), async (req, res) => {
         const data = req.body;
+        const transporter_id = parseInt(req.query.transporter_id);
+        const id = parseInt(req.query.id);
         client.get(`transports`).then(async (oldData) => {
             let newData = oldData ? JSON.parse(oldData) : [];
-            const transportToUpdateIndex = newData.findIndex(transport => transport.vehicleNumber === data.vehicleNumber);
+            const transportToUpdateIndex = newData.findIndex(transport => transport.id === id && transport.transporter_id === transporter_id);
             if (transportToUpdateIndex !== -1) {
-                newData[transportToUpdateIndex] = data;
+                newData[transportToUpdateIndex] = {
+                    ...newData[transportToUpdateIndex],
+                    departureTime: data.departureTime,
+                    arrivalTime: data.arrivalTime,
+                    from: data.from,
+                    to: data.to,
+                    price: data.price,
+                    capacity: data.capacity,
+                    vehicleNumber: data.vehicleNumber
+                };
                 client.set(`transports`, JSON.stringify(newData)).then(() => {
                     res.json({ status: 200, message: 'Data updated successfully!' });
                 }).catch(err => {
@@ -471,13 +485,13 @@ io.on('connection', (socket) => {
     });
 
     // api endpoints to delete transport data
-    app.delete('/api/delete_transport/:vehicleNumber', async (req, res) => {
-        const vehicleNumber = req.params.vehicleNumber;
+    app.delete('/api/delete_transport/:id', async (req, res) => {
+        const id = parseInt(req.params.id);
         client.get(`transports`).then(async (oldData) => {
             let newData = oldData ? JSON.parse(oldData) : [];
-            const transportToDelete = newData.find(transport => transport.vehicleNumber === vehicleNumber);
+            const transportToDelete = newData.find(transport => transport.id === id);
             if (transportToDelete) {
-                newData = newData.filter(transport => transport.vehicleNumber !== vehicleNumber);
+                newData = newData.filter(transport => transport.id !== id);
                 client.set(`transports`, JSON.stringify(newData)).then(() => {
                     res.json({ message: 'Data deleted successfully!' });
                 }).catch(err => {

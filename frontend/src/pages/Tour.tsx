@@ -13,7 +13,7 @@ function Tour() {
     tour.bookingType = "tour"
     return (
         <div className="container mx-auto flex flex-col justify-between">
-            <div className="grid grid-col-1 md:grid-cols-2 items-end">
+            <div className="grid grid-col-1 md:grid-cols-2">
                 <img src={process.env.REACT_APP_server_path + src} alt={title} className="rounded-lg mb-4" />
                 <div className='md:mx-5'>
                     <h2 className="text-2xl font-bold mb-4">{title}</h2>
@@ -50,13 +50,13 @@ function Tour() {
                             ref={bookingFormRef}
                         >
                             <input required type="date" name="date" id="date" className='border border-1 p-2 me-2' />
-                            <input required type="number" name="person" id="person" placeholder={`person`} className='border border-1 p-2 me-2' defaultValue={1} min={1} max={50}/>
+                            <input required type="number" name="person" id="person" placeholder={`person`} className='border border-1 p-2 me-2' defaultValue={1} min={1} max={50} />
                             <button className="bg-green-500 px-4 py-2 text-white">Book</button>
                         </form>
                     </Modal>
+                    <pre className="text-gray-700 text-lg font-medium text-wrap">{description}</pre>
                 </div>
             </div>
-            <pre className="text-gray-700 text-lg font-medium text-wrap">{description}</pre>
         </div>
     )
 }

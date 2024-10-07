@@ -17,8 +17,7 @@ function Transportation() {
     e.preventDefault();
     setSubmitted(true);
     const formdata = new FormData(searchForm.current);
-    const { tripType, from, to, returnDate, journeyDate, checkProvider } = Array.from(formdata.entries()).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
-
+    const { tripType, from, to, returnDate, journeyDate } = Array.from(formdata.entries()).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
     if (new Date() < new Date(journeyDate) && (tripType === 'roundway' ? new Date(journeyDate) < new Date(returnDate) : true)) {
       setSearchTransport(
         transports.reduce((result, transport) => {
@@ -36,9 +35,8 @@ function Transportation() {
           if (tripType === 'roundway') {
             const matchedReturn = transports.find(returnTrip => {
               const reverseMatches = returnTrip.from.toLowerCase() === to.toLowerCase() && returnTrip.to.toLowerCase() === from.toLowerCase();
-              const providerMatches = returnTrip.provider === transport.provider;
-              return reverseMatches
-              // && providerMatches;
+              const providerMatches = returnTrip.transporter_id === transport.transporter_id;
+              return reverseMatches && providerMatches;
             });
             if (fromMatches && toMatches && matchedReturn) {
               matchedReturn.returnDate = returnDate;
@@ -52,6 +50,37 @@ function Transportation() {
           return result;
         }, [])
       );
+
+      console.log(transports.reduce((result, transport) => {
+        const fromMatches = transport.from.toLowerCase() === from.toLowerCase();
+        const toMatches = transport.to.toLowerCase() === to.toLowerCase();
+        transport.journeyDate = journeyDate;
+        if (tripType === 'oneway') {
+          if (fromMatches && toMatches) {
+            result.push({
+              journeyTicket: transport,
+              tripType: 'oneway'
+            });
+          }
+        }
+        if (tripType === 'roundway') {
+          const matchedReturn = transports.find(returnTrip => {
+            const reverseMatches = returnTrip.from.toLowerCase() === to.toLowerCase() && returnTrip.to.toLowerCase() === from.toLowerCase();
+            const providerMatches = returnTrip.transporter_id === transport.transporter_id;
+            return reverseMatches && providerMatches;
+          });
+          if (fromMatches && toMatches && matchedReturn) {
+            matchedReturn.returnDate = returnDate;
+            result.push({
+              journeyTicket: transport,
+              returnTicket: matchedReturn,
+              tripType: 'roundway'
+            });
+          }
+        }
+        return result;
+      }, []));
+      
     } else alert('Date is invalid');
   }
 

@@ -32,7 +32,8 @@ function Blog() {
 
 function BlogCard({ title, image, content }) {
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden mb-4 md:flex">
+    // <Link to={`/blog/${title}`} className="text-blue-400"></Link>
+    <Link to={`/blog/${title}`} className="bg-white shadow-md rounded-lg overflow-hidden mb-4 md:flex">
       <img
         src={process.env.REACT_APP_server_path + image}
         alt="Bangladesh Visa on Arrival"
@@ -40,10 +41,9 @@ function BlogCard({ title, image, content }) {
       />
       <div className="p-4">
         <h2 className="text-xl font-bold text-gray-900">{title}</h2>
-        <p className="text-gray-700 text-base">{content.slice(0, 70)}... <Link to={`/blog/${title}`} className="text-blue-400">Read more</Link></p>
-        {/* <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={handleDeleteBlog}>Delete</button> */}
+        <p className="text-gray-700 text-base">{content.slice(0, 70)}...</p>
       </div>
-    </div>
+    </Link>
   );
 }
 
