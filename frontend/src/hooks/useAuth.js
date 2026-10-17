@@ -1,10 +1,10 @@
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import { Navigate, redirect } from 'react-router-dom';
-import { io } from "socket.io-client";
-export const AuthContext = createContext()
+import chatEmitter from '../services/chatEmitter';
 
-const socket = io(process.env.REACT_APP_server_path);
+export const AuthContext = createContext();
+
+const socket = chatEmitter;
 
 export function AuthProvider({ children }) {
     const ls = localStorage.getItem('auth')
