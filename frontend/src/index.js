@@ -4,6 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './hooks/useAuth';
+import { setupApiAdapter } from './services/apiAdapter';
+
+setupApiAdapter();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
