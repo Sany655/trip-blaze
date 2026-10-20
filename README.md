@@ -1,63 +1,10 @@
-# TripBlaze (Tour Planning Website)
-# 1st milestone
-1. Homepage (Welcome Message, About Us, Why choose us, Contact)
-2. Tours (Places and Hotels)
-3. Packages (Family/Couple/Solo/Group)
-4. Transportation Ticket (Booking One Way or Round Ways Ticket)
-5. Hotels
-6. Message (Between Hotel Managers and Traveller)
-7. Blog Post (Details about different places to visit. Their cultural history. Where to go in that place. What to eat etc.,)
-8. Reviews
-9. About Us
-10. Contact Us
+```
+flowchart TD
+    A["Curated Spot Registry<br/>(Names, Division, District, Price, Days)"] --> C["Automated Enrichment Script<br/>(scripts/fetch-bd-spots.js)"]
+    B1["Wikidata & Wikipedia API<br/>(Authentic Summary & Geo-coordinates)"] --> C
+    B2["Wikimedia Commons API<br/>(High-res, copyright-free spot photos)"] --> C
+    C --> D["frontend/src/data/bangladeshSpots.json<br/>(Clean, Rich, Structured Spot Data)"]
+    D --> E["Data Adapter / Aggregator<br/>(frontend/src/data/index.js)"]
+    E --> F["DataService / UI Components<br/>(Tours.tsx, Details, Filters)"]
+```
 
-11. backend
-12. 3 panel hotel(hotel and package data)/admin(all)/user(reviews)  -- 2 panel user/admin
-13. by clicking the book now button, it will ask via confirm (js) or prompt the necessary info, if it will remains empty then in the server, it will be auto set.
-14. after booking admin will put the necessary data and confirm them.
-15. after confirmation of booking, review form will be appear
-
-# 2nd milestone
-1. Review and Contact Us options will be in the Footer section (done)
-2. Hotel Manager Sign up/Sign in will NOT be in footer (done)
-3. Add filters to hotel (Example: If extra adult/children will be staying? etc.) (done)
-4. Add people count before booking on tours,packages and transport. (how many guest?) (done)
-5. Transport Manager Profile (Will handle transport add/edit/delete) (done)
-6. Text and Pictures should be aligned
-
-# 3rd milestone
-Transport
-• Cancel Transport Booking Option
-• User Capacity Limitation
-
-Tours
-• Tours container... Alignment
-
-Hotels
-• Occupancy Doesn't Work
-
-Packages
-• Container Alignment
-
-Blogs
-• Picture alignment (Too Big)
-
-Admin
-• Admin Manage Booking Shows only on database not in the dashboard
-
-Hotel Manager
-• Can't Sign Up 2nd manager (runtime error)
-
-
-• Contact Us sending Doesn't Work
-• Add Multiple Transport Manager Sign Up
-• Add name in Dashboard
-
-# requirements
-Reference Website:
-https://nijhoom.com/
-https://gozayaan.com/ 
-
-credentials:
-email: tripblaze71@gmail.com
-password: TripBlazeFinalProject@Varsity71

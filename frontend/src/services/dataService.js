@@ -1,4 +1,5 @@
 import initialData from "../trip-blaze.json";
+import bangladeshPlaces from "../data/bangladeshPlaces.json";
 import { db, isFirebaseConfigured } from "../firebase.config";
 import {
   doc,
@@ -272,6 +273,10 @@ class DataService {
   // --- PLACES / TOURS ---
   getPlaces() {
     return this.getCollection("places");
+  }
+
+  getBangladeshPlaces() {
+    return bangladeshPlaces;
   }
 
   setPlace(data, imageUrl) {

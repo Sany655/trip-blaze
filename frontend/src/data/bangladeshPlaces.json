@@ -1,0 +1,402 @@
+[
+  {
+    "id": 101,
+    "title": "Cox's Bazar Sea Beach",
+    "bnTitle": "কক্সবাজার সমুদ্র সৈকত",
+    "description": "Stretching over 120 kilometers unbroken along the Bay of Bengal, Cox's Bazar is the longest natural sea beach in the world. Famous for golden sand, sunset vistas at Kolatoli and Laboni beaches, and serene serenity at Inani Beach with its coral stones.",
+    "price": 8500,
+    "currency": "BDT",
+    "days": 4,
+    "location": "Cox's Bazar, Chattogram, Bangladesh",
+    "division": "Chattogram",
+    "district": "Cox's Bazar",
+    "category": "Beach & Ocean",
+    "bestTimeToVisit": "October to March",
+    "coordinates": {
+      "lat": 21.4272,
+      "lng": 91.9701
+    },
+    "src": "https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 102,
+    "title": "Saint Martin's Island & Chera Dwip",
+    "bnTitle": "সেন্ট মার্টিন দ্বীপ ও ছেঁড়া দ্বীপ",
+    "description": "Bangladesh's only coral island, located in the northeastern Bay of Bengal. Known for crystal-clear turquoise waters, coconut groves, live coral reefs, and the adjoining Chera Dwip that separates during high tide.",
+    "price": 10500,
+    "currency": "BDT",
+    "days": 3,
+    "location": "Teknaf, Cox's Bazar, Chattogram, Bangladesh",
+    "division": "Chattogram",
+    "district": "Cox's Bazar",
+    "category": "Island & Coral",
+    "bestTimeToVisit": "November to February",
+    "coordinates": {
+      "lat": 20.6228,
+      "lng": 92.3218
+    },
+    "src": "https://images.unsplash.com/photo-1628084050478-f32a74c2fa02?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 103,
+    "title": "Sajek Valley (Kingdom of Clouds)",
+    "bnTitle": "সাজেক ভ্যালি",
+    "description": "Perched at 1,800 feet above sea level in the Kasalong mountain range, Sajek Valley is famed for its ocean of drifting clouds, picturesque wooden resorts, Helipad vantage points, and vibrant indigenous Lushei and Tripura cultures.",
+    "price": 7500,
+    "currency": "BDT",
+    "days": 3,
+    "location": "Baghaichhari, Rangamati, Chattogram, Bangladesh",
+    "division": "Chattogram",
+    "district": "Rangamati",
+    "category": "Hill Tracts",
+    "bestTimeToVisit": "September to February",
+    "coordinates": {
+      "lat": 23.3822,
+      "lng": 92.2936
+    },
+    "src": "https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 104,
+    "title": "Nilgiri & Bandarban Hill Peaks",
+    "bnTitle": "নীলগিরি ও বান্দরবান পাহাড়",
+    "description": "One of the highest and most scenic hill stations in Bangladesh, Nilgiri offers a 360-degree panoramic view above the cloud blanket. Surrounding attractions include Chimbuk Hill, Shailopropat waterfall, and the mystical Boga Lake.",
+    "price": 9000,
+    "currency": "BDT",
+    "days": 3,
+    "location": "Thanchi, Bandarban, Chattogram, Bangladesh",
+    "division": "Chattogram",
+    "district": "Bandarban",
+    "category": "Hill Tracts & Peaks",
+    "bestTimeToVisit": "September to March",
+    "coordinates": {
+      "lat": 22.0167,
+      "lng": 92.3333
+    },
+    "src": "https://images.unsplash.com/photo-1582650625119-3a31f8418b7d?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 105,
+    "title": "Sundarbans Mangrove Forest",
+    "bnTitle": "সুন্দরবন ম্যানগ্রোভ বন",
+    "description": "A UNESCO World Heritage Site and the world's largest contiguous tidal halophytic mangrove forest. Habitat of the iconic Royal Bengal Tiger, saltwater crocodiles, spotted deer, and thousands of winding delta canals best explored via cruise.",
+    "price": 14000,
+    "currency": "BDT",
+    "days": 4,
+    "location": "Khulna & Bagerhat, Bangladesh",
+    "division": "Khulna",
+    "district": "Bagerhat",
+    "category": "Forest & Wildlife",
+    "bestTimeToVisit": "November to March",
+    "coordinates": {
+      "lat": 21.9497,
+      "lng": 89.1833
+    },
+    "src": "https://images.unsplash.com/photo-1588714477688-cf28a50e94f7?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 106,
+    "title": "Ratargul Freshwater Swamp Forest",
+    "bnTitle": "রাতারগুল সোয়াম্প ফরেস্ট",
+    "description": "The only freshwater swamp forest in Bangladesh and one of the few in South Asia. During the monsoon, the evergreen forest remains submerged under 20-30 feet of freshwater, creating a magical labyrinth navigated by traditional wooden dinghies.",
+    "price": 5000,
+    "currency": "BDT",
+    "days": 2,
+    "location": "Gowainghat, Sylhet, Bangladesh",
+    "division": "Sylhet",
+    "district": "Sylhet",
+    "category": "Swamp & Wetland",
+    "bestTimeToVisit": "July to October (Monsoon/Post-Monsoon)",
+    "coordinates": {
+      "lat": 25.0069,
+      "lng": 91.9317
+    },
+    "src": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 107,
+    "title": "Sreemangal Tea Gardens & Lawachara",
+    "bnTitle": "শ্রীমঙ্গল চা বাগান ও লাউয়াছড়া",
+    "description": "Known as the Tea Capital of Bangladesh, Sreemangal boasts endless rolling green tea estates, the legendary 7-layer tea at Nilkantha Tea Cabin, rubber plantations, and the rich tropical biodiversity of Lawachara National Park.",
+    "price": 6000,
+    "currency": "BDT",
+    "days": 3,
+    "location": "Sreemangal, Moulvibazar, Sylhet, Bangladesh",
+    "division": "Sylhet",
+    "district": "Moulvibazar",
+    "category": "Tea Gardens & Nature",
+    "bestTimeToVisit": "September to March",
+    "coordinates": {
+      "lat": 24.3065,
+      "lng": 91.7296
+    },
+    "src": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 108,
+    "title": "Bisnakandi & Jaflong",
+    "bnTitle": "বিছনাকান্দি ও জাফলং",
+    "description": "Nestled right at the foot of Meghalaya's Khasi Hills, where gushing mountain streams meet clear stone-strewn rivers like the Piyain and Mari. Renowned for rolling mountain backdrops, fresh water streams, and Mayabi springs.",
+    "price": 5500,
+    "currency": "BDT",
+    "days": 2,
+    "location": "Gowainghat, Sylhet, Bangladesh",
+    "division": "Sylhet",
+    "district": "Sylhet",
+    "category": "Rivers & Foothills",
+    "bestTimeToVisit": "June to October",
+    "coordinates": {
+      "lat": 25.1764,
+      "lng": 91.9882
+    },
+    "src": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 109,
+    "title": "Tanguar Haor Wetland",
+    "bnTitle": "টাঙ্গুয়ার হাওর",
+    "description": "A Ramsar Wetland site of international importance spanning Sunamganj. In monsoon, it transforms into an endless freshwater inland sea framed by the Meghalaya hills, best experienced while living aboard a traditional wooden houseboat (Bajra).",
+    "price": 7500,
+    "currency": "BDT",
+    "days": 3,
+    "location": "Tahirpur, Sunamganj, Sylhet, Bangladesh",
+    "division": "Sylhet",
+    "district": "Sunamganj",
+    "category": "Haor & Inland Waterway",
+    "bestTimeToVisit": "July to October",
+    "coordinates": {
+      "lat": 25.1272,
+      "lng": 91.0664
+    },
+    "src": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 110,
+    "title": "Kuakata Sea Beach (Sagor Konna)",
+    "bnTitle": "কুয়াকাটা সমুদ্র সৈকত",
+    "description": "Rare panoramic beach located in southern Bangladesh offering unobstructed views of both sunrise and sunset over the Bay of Bengal waters. Nearby sites include Gangamati Reserved Forest, the ancient Buddhist temple, and Fatrar Bon.",
+    "price": 7000,
+    "currency": "BDT",
+    "days": 3,
+    "location": "Kalapara, Patuakhali, Barishal, Bangladesh",
+    "division": "Barishal",
+    "district": "Patuakhali",
+    "category": "Beach & Sunset",
+    "bestTimeToVisit": "October to March",
+    "coordinates": {
+      "lat": 21.8167,
+      "lng": 90.1167
+    },
+    "src": "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 111,
+    "title": "Kaptai Lake & Hanging Bridge",
+    "bnTitle": "কাপ্তাই হ্রদ ও ঝুলন্ত সেতু",
+    "description": "The largest man-made freshwater lake in South Asia, created on the Karnaphuli River. Surrounded by lush emerald hills, picturesque floating markets, Shuvolong waterfalls, and the scenic hanging bridge of Rangamati.",
+    "price": 6000,
+    "currency": "BDT",
+    "days": 2,
+    "location": "Kaptai, Rangamati, Chattogram, Bangladesh",
+    "division": "Chattogram",
+    "district": "Rangamati",
+    "category": "Lakes & Hill Waters",
+    "bestTimeToVisit": "September to March",
+    "coordinates": {
+      "lat": 22.4939,
+      "lng": 92.2272
+    },
+    "src": "https://images.unsplash.com/photo-1439853941329-a99ce049f08c?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 112,
+    "title": "Somapura Mahavihara (Paharpur)",
+    "bnTitle": "সোমপুর মহাবিহার (পাহাড়পুর)",
+    "description": "A UNESCO World Heritage Site built by the Pala king Dharmapala in the 8th century. One of the most famous and largest Buddhist monastic complexes in the Indian subcontinent, featuring a magnificent central cruciform shrine.",
+    "price": 5500,
+    "currency": "BDT",
+    "days": 2,
+    "location": "Badalgachhi, Naogaon, Rajshahi, Bangladesh",
+    "division": "Rajshahi",
+    "district": "Naogaon",
+    "category": "Archaeological & Heritage",
+    "bestTimeToVisit": "October to March",
+    "coordinates": {
+      "lat": 25.0319,
+      "lng": 88.9772
+    },
+    "src": "https://images.unsplash.com/photo-1590059390047-66a9d7bb363a?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 113,
+    "title": "Mahasthangarh Citadel",
+    "bnTitle": "মহাস্থানগড়",
+    "description": "One of the earliest urban archaeological sites identified in Bangladesh, dating back to at least the 3rd century BCE as Pundranagara. Features ancient fortifications, Govinda Bhita, and historical relics along the Karatoya River.",
+    "price": 5000,
+    "currency": "BDT",
+    "days": 2,
+    "location": "Shibganj, Bogura, Rajshahi, Bangladesh",
+    "division": "Rajshahi",
+    "district": "Bogura",
+    "category": "Archaeological & Heritage",
+    "bestTimeToVisit": "October to March",
+    "coordinates": {
+      "lat": 24.9606,
+      "lng": 89.3444
+    },
+    "src": "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 114,
+    "title": "Kantajew Terracotta Temple",
+    "bnTitle": "কান্তজীউ মন্দির",
+    "description": "Built in the 18th century by Maharaja Pran Nath, this late-medieval Hindu temple is celebrated for some of the finest terracotta relief work in Bengal, depicting scenes from the Mahabharata and Ramayana on every inch of its brick walls.",
+    "price": 5500,
+    "currency": "BDT",
+    "days": 2,
+    "location": "Kaharole, Dinajpur, Rangpur, Bangladesh",
+    "division": "Rangpur",
+    "district": "Dinajpur",
+    "category": "Historical Architecture",
+    "bestTimeToVisit": "November to February",
+    "coordinates": {
+      "lat": 25.7906,
+      "lng": 88.6728
+    },
+    "src": "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 115,
+    "title": "Lalbagh Fort & Old Dhaka Heritage",
+    "bnTitle": "লালবাগ কেল্লা",
+    "description": "An incomplete 17th-century Mughal fort complex situated along the Buriganga River in Old Dhaka, commissioned by Mughal prince Muhammad Azam Shah. Houses the Tomb of Pari Bibi, the Diwan-i-Aam, and a Mughal-era mosque.",
+    "price": 2500,
+    "currency": "BDT",
+    "days": 1,
+    "location": "Lalbagh, Dhaka, Bangladesh",
+    "division": "Dhaka",
+    "district": "Dhaka",
+    "category": "Mughal Architecture",
+    "bestTimeToVisit": "October to March",
+    "coordinates": {
+      "lat": 23.7194,
+      "lng": 90.3881
+    },
+    "src": "https://images.unsplash.com/photo-1585123388867-3bfe6dd4bdbf?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 116,
+    "title": "Ahsan Manzil (Pink Palace)",
+    "bnTitle": "আহসান মঞ্জিল",
+    "description": "The official residential palace and seat of the Nawab of Dhaka, built in Indo-Saracenic revival architecture overlooking the Buriganga River. Today it serves as a national museum displaying artifacts of 19th-century royal life in Bengal.",
+    "price": 2500,
+    "currency": "BDT",
+    "days": 1,
+    "location": "Kumartoli, Old Dhaka, Bangladesh",
+    "division": "Dhaka",
+    "district": "Dhaka",
+    "category": "Palace & Museum",
+    "bestTimeToVisit": "All Year Round",
+    "coordinates": {
+      "lat": 23.7086,
+      "lng": 90.4061
+    },
+    "src": "https://images.unsplash.com/photo-1599818817296-6086782a1766?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 117,
+    "title": "Panam Nagar & Sonargaon",
+    "bnTitle": "পানাম নগর ও সোনারগাঁও",
+    "description": "The ancient capital of Isa Khan and the Baro-Bhuiyans. Panam Nagar is a preserved ghost city consisting of dozens of European-influenced mansions built in the late 19th and early 20th centuries by wealthy Hindu merchants, alongside the Sonargaon Folk Art Museum.",
+    "price": 3500,
+    "currency": "BDT",
+    "days": 1,
+    "location": "Sonargaon, Narayanganj, Dhaka, Bangladesh",
+    "division": "Dhaka",
+    "district": "Narayanganj",
+    "category": "Heritage City",
+    "bestTimeToVisit": "October to March",
+    "coordinates": {
+      "lat": 23.6492,
+      "lng": 90.6019
+    },
+    "src": "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 118,
+    "title": "Susang Durgapur (Birishiri)",
+    "bnTitle": "সুসং দুর্গাপুর (বিরিশিরি)",
+    "description": "Famed for its turquoise ceramic blue lake surrounded by gentle white clay hills, the pristine Someshwari River with its transparent waters, the Garo Baptist Mission, and indigenous Hajong cultural heritage at the foot of the Meghalaya border.",
+    "price": 6000,
+    "currency": "BDT",
+    "days": 2,
+    "location": "Durgapur, Netrokona, Mymensingh, Bangladesh",
+    "division": "Mymensingh",
+    "district": "Netrokona",
+    "category": "Hills & Blue Lake",
+    "bestTimeToVisit": "October to March",
+    "coordinates": {
+      "lat": 25.1278,
+      "lng": 90.6861
+    },
+    "src": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 119,
+    "title": "Sixty Dome Mosque (Shat Gombuj Masjid)",
+    "bnTitle": "ষাট গম্বুজ মসজিদ",
+    "description": "A UNESCO World Heritage Site founded by Khan Jahan Ali in the 15th century Sultanate period. Despite its name, it features 77 low domes and four corner domes on an impressive Tughlaq-influenced brick architecture structure.",
+    "price": 5000,
+    "currency": "BDT",
+    "days": 2,
+    "location": "Bagerhat, Khulna, Bangladesh",
+    "division": "Khulna",
+    "district": "Bagerhat",
+    "category": "Islamic Heritage",
+    "bestTimeToVisit": "October to March",
+    "coordinates": {
+      "lat": 22.6742,
+      "lng": 89.7419
+    },
+    "src": "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  },
+  {
+    "id": 120,
+    "title": "Boga Lake & Keokradong Trail",
+    "bnTitle": "বগা লেক ও কেওক্রাডং",
+    "description": "A natural, mysteriously deep freshwater lake formed in a volcanic crater or tectonic fault line around 1,200 feet above sea level in the deep hills of Ruma. The gateway for trekkers aiming to conquer Keokradong peak.",
+    "price": 9500,
+    "currency": "BDT",
+    "days": 4,
+    "location": "Ruma, Bandarban, Chattogram, Bangladesh",
+    "division": "Chattogram",
+    "district": "Bandarban",
+    "category": "Adventure & Trekking",
+    "bestTimeToVisit": "November to February",
+    "coordinates": {
+      "lat": 21.9833,
+      "lng": 92.4833
+    },
+    "src": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1000&q=80",
+    "type": "place"
+  }
+]

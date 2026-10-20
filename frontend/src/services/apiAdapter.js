@@ -58,7 +58,7 @@ async function parseBody(data) {
 export function setupApiAdapter() {
   axios.defaults.adapter = async (config) => {
     const method = (config.method || "get").toLowerCase();
-    
+
     // Parse URL and Query parameters
     let rawUrl = config.url || "";
     let cleanPath = rawUrl;
@@ -95,13 +95,13 @@ export function setupApiAdapter() {
       } else if (cleanPath === "set_message") {
         responseData = dataService.setMessage(body);
 
-      // 2. REVIEWS
+        // 2. REVIEWS
       } else if (cleanPath === "get_reviews") {
         responseData = dataService.getReviews();
       } else if (cleanPath === "add_review") {
         responseData = dataService.addReview(body);
 
-      // 3. BOOKINGS
+        // 3. BOOKINGS
       } else if (cleanPath === "confirm_booking") {
         responseData = dataService.confirmBooking(body.bookingId);
       } else if (cleanPath === "get_all_bookings") {
@@ -117,7 +117,7 @@ export function setupApiAdapter() {
       } else if (cleanPath === "cancel_booking") {
         responseData = dataService.cancelBooking(queryParams.id || body.id);
 
-      // 4. AUTH
+        // 4. AUTH
       } else if (cleanPath === "unique_manager") {
         responseData = dataService.checkUniqueUser(body.username, body.email);
       } else if (cleanPath === "signup_manager") {
@@ -131,9 +131,11 @@ export function setupApiAdapter() {
       } else if (cleanPath === "signin") {
         responseData = dataService.signin(body.user, body.password);
 
-      // 5. PLACES / TOURS
-      } else if (cleanPath === "get_places") {
+        // 5. PLACES / TOURS
+      } else if (cleanPath === "get_bangladesh_places") {
         responseData = dataService.getPlaces();
+      } else if (cleanPath === "get_places") {
+        responseData = dataService.getBangladeshPlaces();
       } else if (cleanPath === "set_place") {
         let imgUrl = null;
         if (files.src) {
@@ -150,7 +152,7 @@ export function setupApiAdapter() {
         const title = decodeURIComponent(cleanPath.replace("delete_place/", ""));
         responseData = dataService.deletePlace(title);
 
-      // 6. TRANSPORTS
+        // 6. TRANSPORTS
       } else if (cleanPath === "get_transports") {
         responseData = dataService.getTransports(queryParams.transporter_id);
       } else if (cleanPath === "set_transport") {
@@ -161,7 +163,7 @@ export function setupApiAdapter() {
         const id = cleanPath.replace("delete_transport/", "");
         responseData = dataService.deleteTransport(id);
 
-      // 7. BLOGS
+        // 7. BLOGS
       } else if (cleanPath === "get_blogs") {
         responseData = dataService.getBlogs();
       } else if (cleanPath.startsWith("get_blog/")) {
@@ -183,7 +185,7 @@ export function setupApiAdapter() {
         const title = decodeURIComponent(cleanPath.replace("delete_blog/", ""));
         responseData = dataService.deleteBlog(title);
 
-      // 8. HOTELS & ROOMS
+        // 8. HOTELS & ROOMS
       } else if (cleanPath === "get_hotels") {
         responseData = dataService.getHotels();
       } else if (cleanPath === "get_hotel") {
@@ -209,7 +211,7 @@ export function setupApiAdapter() {
       } else if (cleanPath === "delete_room" || cleanPath.startsWith("delete_room")) {
         responseData = dataService.deleteRoom(queryParams.hotelId, queryParams.roomId);
 
-      // 9. PACKAGES
+        // 9. PACKAGES
       } else if (cleanPath === "get_packages") {
         responseData = dataService.getPackages();
       } else if (cleanPath === "set_package") {
